@@ -15,24 +15,25 @@
     --link-hover-color:rgba(0,0,0,0.5);
     --font-color-accent:rgba(0,0,0,0.5);
 
-    --button-color:;
-    --button-background-color:;
+    --button-color:#fff;
+    --button-background-color:#fff;
 
     --h1-color:rgb(0,0,183);
     --h2-color:rgb(0,0,183);
     --h3-color:rgb(0,0,183);
 
-    --white-space:;
+    --white-space:.5em;
 
     --normal-padding:.5em;
-    --normal-margin:;
+    --normal-margin:.5em;
 
-    --font-family:;
+    --font-family:'Times New Roman', Times, serif;;
     --font-family-sans:"fira-sans";
 
     --font-size:1em;
     --font-size-h1: 2.5em;
     --font-size-h2: 1.2em;
+    --font-size-h2-project: 1.8em;
     --font-size-h3: 1.6em;
     --font-size-h4: 1.4em;
     --font-size-menu: 1.2em;
@@ -58,9 +59,6 @@ nav ul{
 
 nav ul li{
     list-style-type: none;
-}
-
-nav ul li:first-of-type{
 }
 
 nav span{
@@ -141,7 +139,11 @@ main{
     margin: 1.5em 0em 1.5em 0em;
 }
 
-.hoofd-item img{
+.hoofd-item a{
+    text-decoration: none;
+}
+
+img{
     width: 100%;
     height: auto;
 }
@@ -224,4 +226,35 @@ ul{
 
 li{
     list-style: none;
+}
+
+/* Project Styling */
+.h2-project{
+    color: var(--h2-color);
+    font-size: var(--font-size-h2-project);
+    font-family: var(--font-family-sans);
+    font-weight: 400;
+}
+
+p.p-project{
+    margin-top: 1.3em;
+    color: var(--font-color-accent);
+    font-size: .9em;
+}
+
+div.div-project{
+    margin: 1em 0em 1em 0em;
+}
+
+iframe{
+    border-style: none;
+    width: 100%;
+    height: auto;
+}
+
+/* Footer gedeelte */
+footer{
+    text-align: center;
+    margin: var(--normal-margin);
+    padding-bottom: 1em;
 }
