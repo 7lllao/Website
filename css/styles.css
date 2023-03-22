@@ -45,6 +45,9 @@
 /*Algemene styling*/
 body{
     background-color: var(--background-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* nav styling */
@@ -234,10 +237,11 @@ li{
     font-size: var(--font-size-h2-project);
     font-family: var(--font-family-sans);
     font-weight: 400;
+    margin: auto 0;
 }
 
 p.p-project{
-    margin-top: 1.3em;
+    margin: auto 0;
     color: var(--font-color-accent);
     font-size: .9em;
 }
@@ -246,10 +250,26 @@ div.div-project{
     margin: 1em 0em 1em 0em;
 }
 
-iframe{
-    border-style: none;
+.video-container{
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+}
+
+.video-container iframe{
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: auto;
+    height: 100%;
+}
+
+.center{
+    text-align: center;
+}
+
+.information{
+    margin-top: 2em;
 }
 
 /* Footer gedeelte */
@@ -257,4 +277,11 @@ footer{
     text-align: center;
     margin: var(--normal-margin);
     padding-bottom: 1em;
+    bottom: 0;
+    margin-top:auto;
+}
+
+/* Contact pagina */
+.contact{
+    text-align: center;
 }
