@@ -155,8 +155,8 @@ img{
   img {
     width: auto; /* Herstel de breedte naar de oorspronkelijke grootte */
     max-width: 100%; /* Beperk de maximale breedte om overloop te voorkomen */
-    margin: 0 auto; /* Centreer de afbeelding horizontaal */
-    padding: 0 30%; /* Pas de gewenste padding/marges aan */
+    margin: auto; /* Centreer de afbeelding horizontaal */
+    padding: 30%; /* Pas de gewenste padding/marges aan */
   }
 }
 
