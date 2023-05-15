@@ -151,17 +151,6 @@ img{
     height: auto;
 }
 
-@media (min-width: 768px) {
-  img {
-    width: auto; /* Herstel de breedte naar de oorspronkelijke grootte */
-    height: auto; /* Herstel de hoogte naar de oorspronkelijke grootte */
-    max-width: 70vw; /* Beperk de maximale breedte om overloop te voorkomen */
-    max-height: 70vh; /* Beperk de maximale hoogte om overloop te voorkomen */
-    margin-left: 30%; /* Voeg een margin toe aan de linkerkant */
-    margin-right: 30%; /* Voeg een margin toe aan de rechterkant */
-  }
-}
-
 .hoofd-item-div{
     display: flex;
     margin-top: .8em;
@@ -300,3 +289,14 @@ footer{
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+@media (min-width: 768px) {
+  img {
+    width: auto; /* Herstel de breedte naar de oorspronkelijke grootte */
+    height: auto; /* Herstel de hoogte naar de oorspronkelijke grootte */
+    max-width: 70vw; /* Beperk de maximale breedte om overloop te voorkomen */
+    max-height: 70vh; /* Beperk de maximale hoogte om overloop te voorkomen */
+    margin-left: 30%; /* Voeg een margin toe aan de linkerkant */
+    margin-right: 30%; /* Voeg een margin toe aan de rechterkant */
+  }
+} 
