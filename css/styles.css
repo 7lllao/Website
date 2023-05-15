@@ -151,6 +151,15 @@ img{
     height: auto;
 }
 
+@media (min-width: 768px) {
+  img {
+    width: auto; /* Herstel de breedte naar de oorspronkelijke grootte */
+    max-width: 100%; /* Beperk de maximale breedte om overloop te voorkomen */
+    margin: 0 auto; /* Centreer de afbeelding horizontaal */
+    padding: 0 30%; /* Pas de gewenste padding/marges aan */
+  }
+}
+
 .hoofd-item-div{
     display: flex;
     margin-top: .8em;
