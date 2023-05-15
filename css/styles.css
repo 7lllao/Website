@@ -146,6 +146,13 @@ main{
     text-decoration: none;
 }
 
+/* Mediaquery voor desktopweergave */
+@media (min-width: 768px) {
+  .hoofd-item {
+    margin-bottom: 0.5em; /* Pas de gewenste waarde aan */
+  }
+}
+
 img{
     width: 100%;
     height: auto;
