@@ -9,7 +9,7 @@
 /* Algemene custom properties */
 :root{
     --main-color:#fff;
-    --background-color:rgba(0,0,100,0.05);
+    --background-color:rgba(0,0,255,0.02);
 
     --p-color:rgb(0,0,255);
     --link-hover-color:rgba(0,0,0,0.5);
