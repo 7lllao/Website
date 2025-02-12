@@ -1,0 +1,630 @@
+/* Css document */
+* {
+ margin: 0;
+ padding: 0;
+}
+
+::-webkit-scrollbar {
+ display: none;
+}
+.no_scroll {
+    overflow: hidden;
+}
+
+#loader {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: #fff;
+ z-index: 9999;
+ transition: opacity 0.1s;
+}
+
+.loaded {
+    opacity: 0;
+    pointer-events: none;
+}
+
+:root{
+ --padding: clamp(.5rem, 2vw, 1rem);
+ --large-font: clamp(30px, 3vw, 50px);
+ --medium-font: calc( var(--large-font)* .8);
+ --normal-font: calc( var(--large-font) * .45);
+ --small-font: calc( var(--normal-font) * .5);
+ --border-large: clamp(2px, .25vw, 4px) solid #000;
+ --border-normal: clamp(1px, .125vw, 2px) solid #000;
+ --border-color: 1.3px solid rgba(0,0,255);
+ --column-span: 3;
+ 
+ --background-color:rgba(161, 158, 153, 0.997);
+ --color-text:#000;
+ --link-hover-color:rgba(0,0,255,1);
+
+ --font-family:'Times New Roman', Times, serif;
+ --font-family-sans:"Helvetica", "Verdana", "Arial", "Sans-Serif";
+}
+
+html {
+    font: normal 1.5em/1 "Helvetica","Verdana", "Arial", "Sans-Serif";
+    color: var(--color-text);
+    background: var(--color-background);
+  
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+em {
+    font-style: italic;
+}
+
+body{
+ min-height: 100vh;
+ display: flex;
+ background-color: var(--background-color);
+ flex-direction: column;
+ font-family: var(--font-family-sans);
+ overflow-y: auto; /* Enable vertical scrolling */
+ padding-left: 1em;
+ padding-right: 1em;
+
+}
+   
+footer {
+    text-align: left;
+    font-size: var(--normal-font);
+    font-family: "helvetica";
+    color: var(--color-text);
+    padding-bottom: 5%;
+    margin-top: 5%;
+    }
+   footer a:visited {
+    color: inherit; /* Zorgt ervoor dat bezochte links dezelfde kleur houden als niet-bezochte links */
+    }
+   footer a:link {
+    color: inherit;
+    text-decoration: none;
+    }
+    footer a:hover {
+        color: var(--link-hover-color);
+    }
+    .footer_container {
+        font-size: var(--medium-font);
+        font-weight: 400; 
+        display: grid;
+        padding-top: var(--padding);
+        grid-gap: var(--padding);
+        grid-template-columns: repeat(1, 1fr);
+        padding-left: 0.7em;
+}
+      
+
+.left {
+    display: flex;
+    flex-direction: column;
+}
+
+.spacer {
+    min-height: 1px;
+}
+
+  
+img {
+    width: 100%;
+}
+  
+li {
+    list-style: none;
+}
+
+a {
+    color: currentColor;
+    text-decoration: none;
+}
+
+strong, b {
+    font-weight: 600;
+}
+
+small {
+    font-size: inherit;
+    color: var(--color-text-grey);
+}
+
+h1, h2, h3, h4 {
+    font-weight: normal;
+    font-size: inherit;
+}
+
+.header {
+    position: sticky; /* Vast aan de bovenkant */
+    top: 0;
+    left: .7em;
+    width: 100%;
+    height: 3%;
+    z-index: 20;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--padding);
+    background: var(--background-color); 
+    /* border-bottom: var(--border-normal);*/
+    }
+    .header a {
+        text-decoration: none;
+        font-size: var(--large-font);
+        color: var(--color-text);
+        font-family: var(--font-family-sans);
+        padding-left: 0;
+    }
+    .header a:hover {
+        color: var(--link-hover-color);
+    }
+    .header .logo {
+        margin-right: auto;
+}
+    
+.logo {
+    display: flex;
+    text-decoration: none;
+    margin-left: 0;
+    z-index: 10; /* Zorgt dat het bovenop ligt */
+    position: relative;
+    white-space: nowrap;
+    font-size: var(--large-font);
+    font-family: var(--font-family);
+}
+
+.menu {
+    display: flex;
+    gap: 0.8em;
+    background-color: transparent;
+    text-decoration: none;
+    position: relative;
+    margin-left: auto;
+    padding-right: 1.5em;
+    font-size: var(--large-font);
+    font-family: var(--font-family);
+    }
+    .menu span a {
+        display: inline-block;
+}
+
+.text {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    height: auto;
+    margin-top: 4%;
+    }
+    .text a{
+        text-decoration: none;
+        text-underline-offset: .3em;
+        }
+        .text a:hover {
+            text-decoration:underline;
+            text-decoration-thickness: 1.8px;
+        }
+    .text :first-child {
+        margin-top: 0;
+    }
+    /*.text :last-child {
+        margin-bottom: 0;
+    }*/
+    .text p,
+    .text ul,
+    .text ol {
+        margin-bottom: var(--normal-font);
+        font-size: var(--normal-font);
+    }
+    .text ul,
+    .text ol {
+        margin-left: 0;
+    }
+    .text ul p,
+    .text ol p {
+        margin-bottom: 0;
+    }
+    .text ul > li {
+        list-style: none;
+        }
+    .text ol > li {
+        list-style: decimal;
+    }
+    .text ul ol,
+    .text ul ul,
+    .text ol ul,
+    .text ol ol {
+        margin-bottom: 0;
+    }
+    .text h2 {
+        font-size:  var(--large-font);
+        line-height: 1;
+    }
+    .text h3 {
+    font-size: var(--normal-font);
+    }
+    .text_container,
+    .block-type-text,
+    .block-type-list,
+    .block-type-heading {
+        line-height: 1.4;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: clamp(2em, 4vw, 4em);
+    grid-column: span 6;
+    }
+    .column.text,
+    .column.events {
+    grid-column: span 12;
+    }
+    .column-flexbox {
+        height:10px;
+    }
+
+.auto {
+    width: 100%;
+}
+
+.video,
+.img {
+  position: relative;
+  display: block;
+  --w: 1;
+  --h: 1;
+  padding-bottom: calc(100% / var(--w) * var(--h));
+  background: var(--color-black);
+    }
+    .img img {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border: 0;
+    }
+    .video iframe {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+      .vp-preview{
+        background-size: cover !important;
+      }
+      
+      .img[data-contain] img {
+        object-fit: contain;
+      }
+      
+      .img-caption,
+      .video-caption {
+        padding-top: calc(var(--padding) * .5);
+        font-size: calc(var(--normal-font) * .75);
+      }
+
+      .text_container,
+      .event_container {
+        display: grid;
+        grid-gap: var(--padding);
+      }
+
+.event_item {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: var(--padding) 0;
+  border-top: var(--border-normal);
+}
+
+
+.main {
+    padding: calc(var(--large-font) * 0.05) var(--padding) 0; /* Top padding based on your font size variable */
+    display: grid;
+    grid-gap: var(--padding);
+    flex: 1; /* Allow main to grow */
+    overflow-y: auto; /
+}
+      
+.default {
+    display: grid;
+    grid-gap: var(--padding);
+    grid-template-columns: repeat(6, 1fr);
+    min-height: 0; /* Allows grid to scroll within flex container */
+}
+
+    .contact-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* Volledige hoogte van het scherm */
+        text-align: left;
+    }
+    
+    .contact-container ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .contact-container a,
+    .contact-container p {
+        font-size: var(--medium-font);
+        text-decoration: none;
+        color: var(--color-text);
+        line-height: 1.4;
+    }
+    
+    .contact-container a:hover {
+        text-decoration: underline;
+}
+
+
+.item.collection {
+    display: flex;
+    flex-direction: column;
+     gap: calc(var(--padding)*.25);
+    }
+
+    .item.date {
+        display: flex;
+        align-items: center;
+        text-align: right;
+        justify-self: end;
+        margin-left: 28%;
+        }
+        .item.date span.line {
+            flex-grow: 1;                /* Makes the line take the available space */
+            border-bottom:var(--border-color);  /* Creates a horizontal line */
+            margin: 0 20px;              /* Adds space on the left and right of the line */
+        }
+        .item.date .animated-date {
+            display: none;
+            text-align: right;
+            width: 100%;
+            font-family: var(--font-family-sans);
+        }
+
+    .item.title{
+        display: flex;
+    }
+    
+    .item.title p,
+    .item.title a{
+        margin-top: calc(var(--padding)*0.25);
+        margin-bottom: 0;
+    }
+
+    .item.title a:hover{
+        text-decoration: underline;
+    }
+
+    
+    .item.tag {
+        display: flex;
+        gap: calc(var(--padding)*.25);
+        flex-wrap: wrap;
+    }
+      
+    .item.tag span {
+        padding: 5px 10px ;
+        background: var(--highlight);
+        border-radius: 5px;
+        display: inline-block;
+    }
+    .item.tag a {
+        z-index: 10;
+    }
+    .item.artwork{
+        margin-bottom: calc(var(--padding)*0.5);
+        margin-left: 28%;
+        }
+        .item.artwork a :hover{
+            color:var(--link-hover-color);
+        }
+
+
+.related_title {
+  font-size: var(--normal-font);
+}
+
+.header a,
+.page_title,
+.page_read,
+.page_list,
+.content_title,
+.list_title,
+.events.event_container {
+  font-size: var(--large-font); 
+}
+
+.list_title{
+    text-decoration: underline;
+    text-underline-offset: .1em;
+}
+
+
+/* Images */
+img {
+    display: block;
+    margin: auto; /* Hiermee centreer je de afbeelding horizontaal */
+    max-width: calc(60% - 80px); /* Zorgt dat de afbeelding niet tegen de randen komt */
+}
+/* container voor alle items (met name voor foto's voor nu) */
+.hoofd-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* zorgt voor witruimte tussen de foto's */
+    padding: 10% 0; /* Extra ruimte boven en onder de sectie */
+}
+
+/* Bevat de afbeelding en de titel */
+.foto-container {
+    position: relative; /* Zorgt ervoor dat de titel relatief aan de afbeelding blijft */
+    display: inline-block; /* Behoudt de grootte van de afbeelding */
+    text-align: left;
+}
+
+/* De afbeelding */
+.foto-container img {
+    display: block; /* Verwijdert ongewenste witruimte onder de afbeelding */
+    max-width: 80%; /* Larger width for mobile */
+    height: auto; /* Behoudt de originele verhoudingen */
+}
+
+/* De titel onder de afbeelding */
+.titel {
+    position: absolute;
+    padding-left: 10%;
+    bottom: -1.5em;
+    left: 0; /* Zet de titel gelijk met de linkerzijde van de afbeelding */
+    }
+    .titel a:hover{
+        color: var(--link-hover-color);
+        cursor: pointer;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Fourth transformation - Contact changes to C */
+@media screen and (max-width: 390px) {
+    .menu span:nth-child(4) a::before {
+        content: attr(data-letter);
+    }
+    
+    .menu span:nth-child(4) a span {
+        display: none;
+    }
+
+    /* Adjust the gap for the smallest screen size */
+    .menu {
+        gap: 0.4em;
+    }
+}
+
+@media screen and (max-width: 630px) {
+    /* First transformation - About changes to A */
+    .menu span:nth-child(1) a::before {
+        content: attr(data-letter);
+    }
+    
+    .menu span:nth-child(1) a span {
+        display: none;
+    }
+
+    
+}
+
+
+
+@media screen and (max-width:700px){
+    /* Second transformation - Exhibitions changes to E */
+    .menu span:nth-child(2) a::before {
+        content: attr(data-letter);
+    }
+    
+    .menu span:nth-child(2) a span {
+        display: none;
+    }
+    
+    .item.date span.line,  
+        .item.date span:first-child{  
+            display: none;
+            }
+            .item.date {
+                /*display: flex;*/
+                justify-content: flex-end;
+                cursor: pointer;
+            }
+            .item.date span:not(.animated-date){
+                display: none !important;
+            }
+            
+            .item.date .animated-date {
+                display: block;
+                text-align: right;
+                width:100%;
+                font-family: var(--font-family-sans);
+            }
+            .item.artwork{
+                text-align: right;
+                }
+                :root {
+                    --column-span: 6;
+                }
+}
+
+
+
+/* voor animatie debugging */
+@media screen and (min-width: 701px) {
+    .item.date {
+        display: flex;
+        align-items: center;
+    }
+    .item.date span {
+        display: block !important; /* Override any inline styles */
+    }
+    
+    .item.date span.line {
+        flex-grow:1;
+        border-bottom: var(--border-color);
+        margin: 0 20px;
+    }
+    
+    .item.date .animated-date {
+        display: none !important;
+    }
+}
+
+/* Third transformation - Work changes to W */
+@media screen and (max-width: 730px) {
+    .menu span:nth-child(3) a::before {
+        content: attr(data-letter);
+    }
+    
+    .menu span:nth-child(3) a span {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 720px) {
+    :root {
+        --column-span: 5;
+    }
+   
+    .menu {
+        gap: 0.4em;
+    }
+}
+
+
+@media screen and (max-width: 880px) {
+        :root {
+            --column-span: 4;
+        }
+        
+            
+    }
