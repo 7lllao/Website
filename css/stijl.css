@@ -101,7 +101,8 @@ footer {
     }
     .footer_container {
         font-size: var(--medium-font);
-        font-weight: 500;
+        font-weight: 400;
+        line-height: 1.2;
         display: grid;
         padding: var(--padding) 1.2em 0;
         grid-gap: var(--padding);
