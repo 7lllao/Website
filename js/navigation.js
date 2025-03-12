@@ -46,6 +46,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function saveHeaderState() {
         try {
             const menuItems = document.querySelectorAll('.menu span a');
+            // Also get the home button
+            const homeButton = document.querySelector('.logo a, .home-button, .header a[href="/"], .header a[href="/index.html"]');
+            
             const headerState = {
                 menuItems: Array.from(menuItems).map(item => {
                     return {
@@ -54,6 +57,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     };
                 }),
                 menuGap: document.querySelector('.menu').style.gap,
+                // Save home button state if it exists
+                homeButton: homeButton ? {
+                    href: homeButton.getAttribute('href'),
+                    showingInitial: homeButton.getAttribute('data-showing-initial'),
+                    classes: homeButton.className
+                } : null,
                 timestamp: new Date().getTime() // Add timestamp for cache invalidation
             };
             
@@ -84,6 +93,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     item.setAttribute('data-showing-initial', headerState.menuItems[index].showingInitial);
                 }
             });
+            
+            // Apply saved home button state if it exists
+            if (headerState.homeButton) {
+                const homeButton = document.querySelector('.logo a, .home-button, .header a[href="/"], .header a[href="/index.html"]');
+                if (homeButton) {
+                    if (headerState.homeButton.showingInitial) {
+                        homeButton.setAttribute('data-showing-initial', headerState.homeButton.showingInitial);
+                    }
+                    if (headerState.homeButton.classes) {
+                        homeButton.className = headerState.homeButton.classes;
+                    }
+                }
+            }
             
             // Apply saved menu gap
             if (headerState.menuGap) {
