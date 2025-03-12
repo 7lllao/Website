@@ -86,7 +86,7 @@ footer {
     font-size: var(--normal-font);
     font-family: "helvetica";
     color: var(--color-text);
-    padding-bottom: 5%;
+    padding-bottom: 1em;
     margin-top: 5%;
     }
    footer a:visited {
@@ -1483,13 +1483,6 @@ body.menu-open {
     margin-bottom: 10px;
 }
 
-.work-details-column {
-    /* Full column for details & credits */
-}
-
-.work-exhibitions-column {
-    /* Full column for exhibitions */
-}
 
 .work-details-container h3 {
     font-family: var(--font-primary);
@@ -1703,6 +1696,22 @@ body.menu-open {
     
     .archive-item {
         margin-bottom: 1rem; /* Reduced from 1.5rem */
+    }
+}
+
+/* Last Updated Styling */
+#last-updated {
+    text-align: left;
+    font-size: var(--small-font);
+    color: rgba(50, 53, 58, 0.5); /* Muted color based on your theme */
+    font-family: var(--font-family-sans);
+    margin-top: 0px; /* Space between footer content and last updated text */
+    grid-column: 1; /* Ensure it spans the first column in the footer grid */
+}
+
+@media screen and (max-width: 768px) {
+    #last-updated {
+        font-size: calc(var(--small-font) * 0.9);
     }
 }
 
