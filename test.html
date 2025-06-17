@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EU News Visualization - Fixed Positioning</title>
+    <style>
+        body {
+            margin: 0;
+            background: #2f2f2f;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+            background: #2f2f2f;
+        }
+        .info-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: lime;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .time-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: lime;
+            font-size: 18px;
+        }
+        .current-news {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            font-size: 12px;
+            max-width: 600px;
+        }
+        .news-item {
+            margin: 8px 0;
+            padding: 5px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 3px;
+        }
+        .news-category {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .news-source {
+            color: #888;
+            font-size: 10px;
+            margin-left: 10px;
+        }
+        .legend {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: white;
+            font-size: 11px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+        }
+        .legend-color {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="newsCanvas"></canvas>
+    
+    <div class="info-panel">FEED: EUROPE</div>
+    
+    <div class="time-info">
+        <div id="currentTime">Mon 9 Jun 19:00</div>
+    </div>
+    
+    <div class="current-news">
+        <div style="color: lime; font-weight: bold; margin-bottom: 10px;">CURRENT HEADLINES</div>
+        <div class="news-item">
+            <span class="news-category" style="color: #fb9a99;">Crime & Justice</span>
+            <span>Hundreds of lawyers call for UK sanctions on Israel over Gaza war</span>
+            <span class="news-source">BBC World</span>
+        </div>
+        <div class="news-item">
+            <span class="news-category" style="color: #a6cee3;">Politics</span>
+            <span>EU Parliament votes on new climate legislation package</span>
+            <span class="news-source">Reuters</span>
+        </div>
+        <div class="news-item">
+            <span class="news-category" style="color: #ff7f00;">Technology</span>
+            <span>Major tech companies announce AI safety framework</span>
+            <span class="news-source">TechCrunch</span>
+        </div>
+    </div>
+    
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color" style="background: #a6cee3;"></div>
+            <span>Politics</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #1f78b4;"></div>
+            <span>Conflict & Military</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #fb9a99;"></div>
+            <span>Crime & Justice</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #b2df8a;"></div>
+            <span>Society & Culture</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #cab2d6;"></div>
+            <span>Entertainment</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #6a3d9a;"></div>
+            <span>Sports</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #33a02c;"></div>
+            <span>Health</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #ff7f00;"></div>
+            <span>Technology & Science</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #fdbf6f;"></div>
+            <span>Economy</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #e31a1c;"></div>
+            <span>Disaster & Climate</span>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('newsCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        // Colors
+        const colors = {
+            politics: '#a6cee3',
+            conflict: '#1f78b4',
+            crime: '#fb9a99',
+            society: '#b2df8a',
+            entertainment: '#cab2d6',
+            sports: '#6a3d9a',
+            health: '#33a02c',
+            technology: '#ff7f00',
+            economy: '#fdbf6f',
+            disaster: '#e31a1c'
+        };
+        
+        // STRICT HIERARCHY
+        const categoryHierarchy = [
+            'politics', 'conflict', 'crime', 'society', 'entertainment',
+            'sports', 'health', 'technology', 'economy', 'disaster'
+        ];
+        
+        let euCenter, worldCenter, circleRadius;
+        
+        function updateDimensions() {
+            const margin = 60;
+            const spacing = 120;
+            const availableWidth = canvas.width - (2 * margin) - spacing;
+            const availableHeight = canvas.height - (2 * margin);
+            
+            circleRadius = Math.max(180, Math.min(availableWidth / 4, availableHeight / 2.2));
+            
+            euCenter = { 
+                x: margin + circleRadius, 
+                y: canvas.height * 0.5 
+            };
+            worldCenter = { 
+                x: margin + circleRadius * 2 + spacing + circleRadius, 
+                y: canvas.height * 0.5 
+            };
+        }
+        
+        // Time system
+        let currentTime = 0.3;
+        const timeSpeed = 0.0005;
+        
+        // FIXED COMPASS POSITIONS - 0° = NORTH (UP)
+        const worldRegions = {
+            northAmerica: { 
+                fixedAngle: 315,    // NW - Links boven
+                currentAngle: 315, 
+                label: 'NA', 
+                sectorSize: 60 
+            },
+            asia: { 
+                fixedAngle: 45,     // NE - Rechts boven
+                currentAngle: 45, 
+                label: 'AS', 
+                sectorSize: 60 
+            },
+            middleEast: { 
+                fixedAngle: 90,     // E - Rechts midden
+                currentAngle: 90, 
+                label: 'ME', 
+                sectorSize: 60 
+            },
+            oceania: { 
+                fixedAngle: 135,    // SE - Rechts onder
+                currentAngle: 135, 
+                label: 'OC', 
+                sectorSize: 60 
+            },
+            africa: { 
+                fixedAngle: 225,    // SW - Links onder
+                currentAngle: 225, 
+                label: 'AF', 
+                sectorSize: 60 
+            },
+            southAmerica: { 
+                fixedAngle: 270,    // W - Links midden
+                currentAngle: 270, 
+                label: 'SA', 
+                sectorSize: 60 
+            }
+        };
+        
+        // Collision constants
+        const COLLISION_DISTANCE = 4;
+        const COLLISION_FORCE = 0.3;
+        
+        let euNodes = [];
+        let worldNodes = [];
+        let nodeIdCounter = 0;
+        
+        // EU categories - 0° = NORTH
+        function getCategoryAngle(category) {
+            const index = categoryHierarchy.indexOf(category);
+            if (index === -1) return 0;
+            // 0° = North, so we don't subtract 90°
+            const angleStep = 360 / categoryHierarchy.length;
+            return (index * angleStep) * Math.PI / 180;
+        }
+        
+        // World region categories
+        function getRegionCategoryAngle(region, category) {
+            const regionData = worldRegions[region];
+            const categoryIndex = categoryHierarchy.indexOf(category);
+            
+            if (categoryIndex === -1) return (regionData.currentAngle * Math.PI / 180);
+            
+            const categoryWidth = regionData.sectorSize / categoryHierarchy.length;
+            const sectorStart = regionData.currentAngle - (regionData.sectorSize / 2);
+            const categoryAngle = sectorStart + (categoryIndex * categoryWidth) + (categoryWidth / 2);
+            
+            return (categoryAngle * Math.PI / 180);
+        }
+        
+        // Create node
+        function createNodeWithStrictTime(category, region, type, publicationTime) {
+            const baseAngle = type === 'eu' ? getCategoryAngle(category) : getRegionCategoryAngle(region, category);
+            
+            return {
+                id: nodeIdCounter++,
+                category,
+                region,
+                type,
+                publicationTime: publicationTime,
+                baseAngle: baseAngle,
+                x: 0,
+                y: 0,
+                offsetAngle: 0,
+                size: 1.2,
+                opacity: 1.0
+            };
+        }
+        
+        // Calculate exact position
+        function calculateExactPosition(node, centerX, centerY) {
+            let timeSincePublication = currentTime - node.publicationTime;
+            if (timeSincePublication < 0) timeSincePublication += 1;
+            
+            const exactRadius = timeSincePublication * circleRadius;
+            const exactAngle = node.baseAngle + node.offsetAngle;
+            
+            return {
+                x: centerX + Math.cos(exactAngle) * exactRadius,
+                y: centerY + Math.sin(exactAngle) * exactRadius,
+                radius: exactRadius
+            };
+        }
+        
+        // SIMPLIFIED collision avoidance - no complex physics
+        function applyCollisionAvoidance(nodes, centerX, centerY) {
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const nodeA = nodes[i];
+                    const nodeB = nodes[j];
+                    
+                    const posA = calculateExactPosition(nodeA, centerX, centerY);
+                    const posB = calculateExactPosition(nodeB, centerX, centerY);
+                    
+                    const dx = posB.x - posA.x;
+                    const dy = posB.y - posA.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < COLLISION_DISTANCE && distance > 0.1) {
+                        const radiusDiff = Math.abs(posA.radius - posB.radius);
+                        
+                        if (radiusDiff < 10) {
+                            const angleA = Math.atan2(posA.y - centerY, posA.x - centerX);
+                            const angleB = Math.atan2(posB.y - centerY, posB.x - centerX);
+                            
+                            let angleDiff = angleB - angleA;
+                            if (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
+                            if (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
+                            
+                            const pushDirection = angleDiff > 0 ? 1 : -1;
+                            const force = COLLISION_FORCE * 0.01;
+                            
+                            nodeA.offsetAngle -= force * pushDirection;
+                            nodeB.offsetAngle += force * pushDirection;
+                            
+                            // Limit offset
+                            nodeA.offsetAngle = Math.max(-0.2, Math.min(0.2, nodeA.offsetAngle));
+                            nodeB.offsetAngle = Math.max(-0.2, Math.min(0.2, nodeB.offsetAngle));
+                        }
+                    }
+                }
+            }
+        }
+        
+        // SIMPLIFIED axis physics - ENFORCE FIXED POSITIONS
+        function enforceFixedPositions() {
+            Object.entries(worldRegions).forEach(([regionName, region]) => {
+                // FORCE regions back to their fixed positions with small tolerance
+                const deviation = region.currentAngle - region.fixedAngle;
+                
+                if (Math.abs(deviation) > 8) { // Max 8° deviation
+                    // Force back to fixed position
+                    region.currentAngle = region.fixedAngle;
+                } else {
+                    // Small adjustment allowed for natural movement
+                    region.currentAngle += (region.fixedAngle - region.currentAngle) * 0.02;
+                }
+                
+                // Normalize angle
+                if (region.currentAngle < 0) region.currentAngle += 360;
+                if (region.currentAngle >= 360) region.currentAngle -= 360;
+                
+                // Dynamic sector size based on activity
+                const regionNodes = worldNodes.filter(node => node.region === regionName);
+                const pressure = Math.max(5, regionNodes.length * 3);
+                const targetSize = Math.min(80, Math.max(40, pressure));
+                region.sectorSize += (targetSize - region.sectorSize) * 0.02;
+            });
+        }
+        
+        // Update positions
+        function updateNodePositions(nodes, centerX, centerY) {
+            nodes.forEach(node => {
+                const exactPos = calculateExactPosition(node, centerX, centerY);
+                node.x = exactPos.x;
+                node.y = exactPos.y;
+            });
+        }
+        
+        // Generate initial nodes
+        function generateInitialNodes() {
+            updateDimensions();
+            
+            // EU nodes
+            for (let i = 0; i < 40; i++) {
+                const publicationTime = Math.random();
+                const category = categoryHierarchy[Math.floor(Math.random() * categoryHierarchy.length)];
+                euNodes.push(createNodeWithStrictTime(category, null, 'eu', publicationTime));
+            }
+            
+            // World nodes
+            const regionCounts = {
+                'northAmerica': 25, 'asia': 23, 'middleEast': 20,
+                'africa': 6, 'southAmerica': 4, 'oceania': 3
+            };
+            
+            Object.keys(worldRegions).forEach(region => {
+                const nodeCount = regionCounts[region] || 5;
+                for (let i = 0; i < nodeCount; i++) {
+                    const publicationTime = Math.random();
+                    const category = categoryHierarchy[Math.floor(Math.random() * categoryHierarchy.length)];
+                    worldNodes.push(createNodeWithStrictTime(category, region, 'world', publicationTime));
+                }
+            });
+        }
+        
+        // Drawing functions
+        function drawTimeRings(centerX, centerY) {
+            if (circleRadius <= 0) return;
+            
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
+            ctx.lineWidth = 1;
+            
+            for (let hour = 1; hour <= 24; hour++) {
+                const radius = (circleRadius / 24) * hour;
+                if (radius > 0) {
+                    ctx.beginPath();
+                    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+            }
+            
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, circleRadius, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+        
+        function drawRegionalSectors() {
+            // Draw sector boundaries
+            Object.entries(worldRegions).forEach(([regionName, data]) => {
+                const centerAngle = data.currentAngle * Math.PI / 180;
+                const halfSector = (data.sectorSize / 2) * Math.PI / 180;
+                const startAngle = centerAngle - halfSector;
+                
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.lineWidth = 1;
+                
+                ctx.beginPath();
+                ctx.moveTo(worldCenter.x, worldCenter.y);
+                ctx.lineTo(
+                    worldCenter.x + Math.cos(startAngle) * circleRadius,
+                    worldCenter.y + Math.sin(startAngle) * circleRadius
+                );
+                ctx.stroke();
+            });
+            
+            // Draw labels at FIXED positions
+            Object.entries(worldRegions).forEach(([regionName, data]) => {
+                const centerAngle = data.currentAngle * Math.PI / 180;
+                
+                const labelRadius = circleRadius * 0.75;
+                const labelX = worldCenter.x + Math.cos(centerAngle) * labelRadius;
+                const labelY = worldCenter.y + Math.sin(centerAngle) * labelRadius;
+                
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 16px monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText(data.label, labelX, labelY + 5);
+            });
+        }
+        
+        function drawCurrentTimeRing(centerX, centerY) {
+            const ringRadius = circleRadius * currentTime;
+            
+            if (ringRadius > 5) {
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.lineWidth = 1;
+                
+                const gapAngle = 0.12;
+                
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, ringRadius, -Math.PI/2 + gapAngle, -Math.PI/2 - gapAngle + 2*Math.PI);
+                ctx.stroke();
+                
+                // 00:00 marker at NORTH (0°, which is -90° in canvas coordinates)
+                const markerAngle = -Math.PI/2;
+                const markerX = centerX + Math.cos(markerAngle) * ringRadius;
+                const markerY = centerY + Math.sin(markerAngle) * ringRadius;
+                
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 10px monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText('00:00', markerX, markerY - 8);
+                
+                ctx.beginPath();
+                ctx.arc(markerX, markerY, 2, 0, Math.PI * 2);
+                ctx.fill();
+                
+                const leftGapX = centerX + Math.cos(-Math.PI/2 + gapAngle) * ringRadius;
+                const leftGapY = centerY + Math.sin(-Math.PI/2 + gapAngle) * ringRadius;
+                const rightGapX = centerX + Math.cos(-Math.PI/2 - gapAngle) * ringRadius;
+                const rightGapY = centerY + Math.sin(-Math.PI/2 - gapAngle) * ringRadius;
+                
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(leftGapX, leftGapY);
+                ctx.lineTo(markerX, markerY);
+                ctx.lineTo(rightGapX, rightGapY);
+                ctx.stroke();
+            }
+        }
+        
+        function drawCenterLabels() {
+            ctx.fillStyle = 'lime';
+            ctx.font = 'bold 12px monospace';
+            ctx.textAlign = 'center';
+            
+            ctx.fillText('EU', euCenter.x, euCenter.y + 3);
+            ctx.fillText('EU', worldCenter.x, worldCenter.y + 3);
+        }
+        
+        function drawNodes(nodes, centerX, centerY) {
+            nodes.forEach(node => {
+                if (node.x === 0 && node.y === 0) return;
+                
+                const timeRingRadius = circleRadius * currentTime;
+                const nodeRadius = Math.sqrt((node.x - centerX) ** 2 + (node.y - centerY) ** 2);
+                
+                let opacity = node.opacity;
+                if (nodeRadius > timeRingRadius) opacity *= 0.25;
+                
+                const color = colors[node.category] || '#ffffff';
+                
+                ctx.globalAlpha = opacity;
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                if (opacity > 0.8) {
+                    ctx.shadowColor = color;
+                    ctx.shadowBlur = 2;
+                    ctx.beginPath();
+                    ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+            });
+            ctx.globalAlpha = 1;
+        }
+        
+        // Spawn nodes
+        function maybeSpawnNodes() {
+            if (Math.random() < 0.02) {
+                const category = categoryHierarchy[Math.floor(Math.random() * categoryHierarchy.length)];
+                euNodes.push(createNodeWithStrictTime(category, null, 'eu', currentTime));
+            }
+            
+            if (Math.random() < 0.04) {
+                const category = categoryHierarchy[Math.floor(Math.random() * categoryHierarchy.length)];
+                
+                const regionWeights = {
+                    'northAmerica': 30, 'asia': 28, 'middleEast': 25,
+                    'africa': 8, 'southAmerica': 5, 'oceania': 4
+                };
+                
+                const totalWeight = Object.values(regionWeights).reduce((sum, weight) => sum + weight, 0);
+                let randomValue = Math.random() * totalWeight;
+                let selectedRegion = null;
+                
+                for (const [regionName, weight] of Object.entries(regionWeights)) {
+                    randomValue -= weight;
+                    if (randomValue <= 0) {
+                        selectedRegion = regionName;
+                        break;
+                    }
+                }
+                
+                if (selectedRegion) {
+                    worldNodes.push(createNodeWithStrictTime(category, selectedRegion, 'world', currentTime));
+                }
+            }
+        }
+        
+        function cleanupNodes() {
+            euNodes = euNodes.filter(node => {
+                const pos = calculateExactPosition(node, euCenter.x, euCenter.y);
+                return pos.radius <= circleRadius * 1.05;
+            });
+            
+            worldNodes = worldNodes.filter(node => {
+                const pos = calculateExactPosition(node, worldCenter.x, worldCenter.y);
+                return pos.radius <= circleRadius * 1.05;
+            });
+        }
+        
+        // Main animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            updateDimensions();
+            currentTime = (currentTime + timeSpeed) % 1;
+            
+            // ENFORCE fixed positions instead of complex physics
+            enforceFixedPositions();
+            
+            applyCollisionAvoidance(euNodes, euCenter.x, euCenter.y);
+            applyCollisionAvoidance(worldNodes, worldCenter.x, worldCenter.y);
+            
+            updateNodePositions(euNodes, euCenter.x, euCenter.y);
+            updateNodePositions(worldNodes, worldCenter.x, worldCenter.y);
+            
+            drawTimeRings(euCenter.x, euCenter.y);
+            drawCurrentTimeRing(euCenter.x, euCenter.y);
+            
+            drawTimeRings(worldCenter.x, worldCenter.y);
+            drawRegionalSectors();
+            drawCurrentTimeRing(worldCenter.x, worldCenter.y);
+            
+            drawCenterLabels();
+            
+            drawNodes(euNodes, euCenter.x, euCenter.y);
+            drawNodes(worldNodes, worldCenter.x, worldCenter.y);
+            
+            maybeSpawnNodes();
+            cleanupNodes();
+            
+            requestAnimationFrame(animate);
+        }
+        
+        // Initialize
+        generateInitialNodes();
+        animate();
+        
+        // Update time display
+        function updateTimeDisplay() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleString('en-US', {
+                weekday: 'short',
+                day: 'numeric',
+                month: 'short',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            });
+        }
+        
+        setInterval(updateTimeDisplay, 1000);
+        updateTimeDisplay();
+        
+    </script>
+</body>
+</html>
