@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjMjIyIiByeD0iOCIgcnk9IjgiLz4KICA8ZyBmaWxsPSIjNDQ0Ij4KICAgIDxjaXJjbGUgY3g9IjgiIGN5PSI4IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIxNiIgY3k9IjgiIHI9IjIiLz4KICAgIDxjaXJjbGUgY3g9IjI0IiBjeT0iOCIgcj0iMiIvPgogICAgPGNpcmNsZSBjeD0iMzIiIGN5PSI4IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI0MCIgY3k9IjgiIHI9IjIiLz4KICAgIDxjaXJjbGUgY3g9IjQ4IiBjeT0iOCIgcj0iMiIvPgogICAgPGNpcmNsZSBjeD0iNTYiIGN5PSI4IiByPSIyIi8+CgogICAgPGNpcmNsZSBjeD0iOCIgY3k9IjE2IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIxNiIgY3k9IjE2IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjE2IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIzMiIgY3k9IjE2IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI0MCIgY3k9IjE2IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI0OCIgY3k9IjE2IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI1NiIgY3k9IjE2IiByPSIyIi8+CgogICAgPGNpcmNsZSBjeD0iOCIgY3k9IjI0IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIxNiIgY3k9IjI0IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjI0IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIzMiIgY3k9IjI0IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI0MCIgY3k9IjI0IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI0OCIgY3k9IjI0IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI1NiIgY3k9IjI0IiByPSIyIi8+CgogICAgPGNpcmNsZSBjeD0iOCIgY3k9IjMyIiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIxNiIgY3k9IjMyIiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjMyIiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI0MCIgY3k9IjMyIiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI0OCIgY3k9IjMyIiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI1NiIgY3k9IjMyIiByPSIyIi8+CgogICAgPGNpcmNsZSBjeD0iOCIgY3k9IjQwIiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIxNiIgY3k9IjQwIiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjQwIiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIzMiIgY3k9IjQwIiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI0OCIgY3k9IjQwIiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI1NiIgY3k9IjQwIiByPSIyIi8+CgogICAgPGNpcmNsZSBjeD0iOCIgY3k9IjQ4IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIxNiIgY3k9IjQ4IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjQ4IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIzMiIgY3k9IjQ4IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI0MCIgY3k9IjQ4IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI0OCIgY3k9IjQ4IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI1NiIgY3k9IjQ4IiByPSIyIi8+CgogICAgPGNpcmNsZSBjeD0iOCIgY3k9IjU2IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIxNiIgY3k9IjU2IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjU2IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIzMiIgY3k9IjU2IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI0MCIgY3k9IjU2IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI0OCIgY3k9IjU2IiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI1NiIgY3k9IjU2IiByPSIyIi8+CiAgPC9nPgogIAogIDxnIGZpbGw9IiNjMGMwYzAiPgogICAgPCEtLSBUb3Agcm93IG9mIFogLS0+CiAgICA8Y2lyY2xlIGN4PSIxNiIgY3k9IjE2IiByPSIzIi8+CiAgICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjE2IiByPSIzIi8+CiAgICA8Y2lyY2xlIGN4PSIzMiIgY3k9IjE2IiByPSIzIi8+CiAgICA8Y2lyY2xlIGN4PSI0MCIgY3k9IjE2IiByPSIzIi8+CiAgICA8Y2lyY2xlIGN4PSI0OCIgY3k9IjE2IiByPSIzIi8+CiAgICAKICAgIDwhLS0gRGlhZ29uYWwgb2YgWiAtLT4KICAgIDxjaXJjbGUgY3g9IjQwIiBjeT0iMjQiIHI9IjMiLz4KICAgIDxjaXJjbGUgY3g9IjMyIiBjeT0iMzIiIHI9IjMiLz4KICAgIDxjaXJjbGUgY3g9IjI0IiBjeT0iNDAiIHI9IjMiLz4KICAgIAogICAgPCEtLSBCb3R0b20gcm93IG9mIFogLS0+CiAgICA8Y2lyY2xlIGN4PSIxNiIgY3k9IjQ4IiByPSIzIi8+CiAgICA8Y2lyY2xlIGN4PSIyNCIgY3k9IjQ4IiByPSIzIi8+CiAgICA8Y2lyY2xlIGN4PSIzMiIgY3k9IjQ4IiByPSIzIi8+CiAgICA8Y2lyY2xlIGN4PSI0MCIgY3k9IjQ4IiByPSIzIi8+CiAgICA8Y2lyY2xlIGN4PSI0OCIgY3k9IjQ4IiByPSIzIi8+CiAgPC9nPgo8L3N2Zz4=">
+    
+
+    <title>Zhao Zhou | Exhibitions</title>
+    <link rel="stylesheet" type="text/css" href="./css/stijl.css">
+    <link rel="stylesheet" href="https://use.typekit.net/jnl8xmf.css">
+</head>
+
+
+<body><div id="loader"></div>
+    
+
+
+    <header class="header" id="header">
+        <a href="index.html" title="Back to the beginning">Zhao Zhou</a>
+       
+        <nav class="menu">
+            <span><a href="about.html" data-letter="A" title="Learn about the artist"><span>About</span></a></span>
+            <span><a href="exhibitions.html" data-letter="E" title="See where the work has traveled"><span>Exhibitions</span></a></span>
+            <span><a href="works.html" data-letter="W" title="Browse the portfolio"><span>Works</span></a></span>
+            <span><a href="contact.html" data-letter="C" title="Get in touch"><span>Contact</span></a></span>
+            <button class="theme-toggle" onclick="toggleTheme()" title="Switch between light and dark" aria-label="Toggle dark/light theme"></button>
+        </nav>
+        
+    </header>
+
+
+
+    <main class="main">
+    <div class="events.event_container">
+        
+
+
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://mediaartfriesland.nl/luna-2025-en/zhao-zhou-bora-2/" target="_blank" title="Visit LUNA NIGHTS exhibition page">
+                    LUNA NIGHTS
+                    <p>Waagplein</p>
+                    <p>Leeuwarden, NL</p>
+                </a>
+            </li>
+            <div class="item collection">    
+                <li class="item date">
+                    <span>30.01.2025</span><span class="line"></span>
+                    <span>01.02.2025</span>
+                </li>
+                <li class="item artwork">
+                    <a href="./works/borabora.html" target="_blank" title="See project details">
+                        <span>Bora: Bora</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+
+
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://schemerlichtfestival.nl/archief/bora-bora/" target="_blank">
+                    Schemerlicht Festival
+                    <p>Goffertpark</p>
+                    <p>Nijmegen, NL</p>
+                </a>
+            </li>
+            <div class="item collection">    
+                <li class="item date">
+                    <span>16.10.2024</span><span class="line"></span>
+                    <span>27.10.2024</span>
+                </li>
+                <li class="item artwork">
+                    <a href="./works/borabora.html" target="_blank" title="See project details">
+                        <span>Bora: Bora</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+
+
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://murfmurw.com/artiesten-2024/zhao-nl/" target="_blank">
+                    Murf/Murw Festival
+                    <p>NS16</p>
+                    <p>Tilburg, NL</p>
+                </a>
+            </li>
+            <div class="item collection">     
+                <li class="item date">
+                    <span>27.09.2024</span><span class="line"></span>
+                    <span>29.09.2024</span>
+                </li>
+                <li class="item artwork">
+                    <a href="./works/waitingcurrent.html"" target="_blank">
+                        <span>Waiting Current</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+        
+
+
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://2024.seedjerba.net/zhao-zhou/" target="_blank">
+                    SEE DJERBA
+                    <p>Houmt Souk's center</p>
+                    <p>Djerba, TN</p>
+                </a>
+            </li>
+            <div class="item collection">
+                <li class="item date">
+                    <span>06.09.2024</span><span class="line"></span>
+                    <span>08.09.2024</span>
+                </li>
+                <li class="item artwork">
+                    <a href="./works/waitingcurrent.html" target="_blank">
+                        <span>Waiting Current</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+
+
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://marres.org/program/limburg-biennale-2024/" target="_blank">
+                    Limburg Biënnale
+                    <p>Marres</p>
+                    <p>Maastricht, NL</p>
+                </a>
+            </li>
+            <div class="item collection">
+                <li class="item date">
+                    <span>29.06.2024</span><span class="line"></span>
+                    <span>25.08.2024</span>
+                </li>
+                <li class="item artwork">
+                    <a href="./works/caketin.html" target="_blank">
+                        <span>Cake Tin</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+
+
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://marres.org/program/limburg-biennale-2024/" target="_blank">
+                    Limburg Biënnale
+                    <p>Odapark</p>
+                    <p>Venray, NL</p>
+                </a>
+            </li>
+            <div class="item collection">
+                <li class="item date">
+                    <span>29.06.2024</span><span class="line"></span>
+                    <span>25.08.2024</span>
+                </li>
+                <li class="item artwork">
+                    <a href="./works/forcedswitch.html" target="_blank" title="See project details">
+                        <span>Forced Switch</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+
+
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://www.kunstfort.nl/en/exhibitions/the-hand-that-searched-in-the-void/" target="_blank">
+                    <em>The hand that searched in the void</em>
+                    <p>Kunstfort</p>
+                    <p>Vijfhuizen, NL</p>
+                </a>
+            </li>
+            <div class="item collection">
+                <li class="item date">
+                    <span>15.03.2024</span><span class="line"></span>
+                    <span>23.06.2024</span>
+                </li>
+                <li class="item artwork">
+                    <a href="./works/tunnelvision.html" target="_blank">
+                        <span>Tunnel Vision</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+
+
+
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://www.gogbot.nl/editions/feed-your-head-drugs-ai" target="_blank">
+                    GOGBOT Festival
+                    <p>Warp Technopolis</p>
+                    <p>Enschede, NL</p>
+                </a>
+            </li>
+            <div class="item collection">
+                <li class="item date">
+                    <span>07.09.2023</span><span class="line"></span>
+                    <span>10.09.2023</span>
+                </li>
+                <li class="item artwork">
+                    <a href="./works/immuunsysteem.html" target="_blank">
+                        <span>Immuunsysteem</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+
+
+
+        <ul class="event_item">
+            <li class="item title">
+                <a>
+                    Metal Binders: Season Highlight
+                    <p>Kunstpodium T</p>
+                    <p>Tilburg, NL</p>
+                </a>
+            </li>
+            <div class="item collection">
+                <li class="item date">
+                    <span>01.09.2023</span><span class="line"></span>
+                    <span>17.09.2023</span>
+                </li>
+            </div>
+        </ul>
+
+
+
+
+    
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://www.tweetakt.nl/kunstprogramma-zhao-zhou/" target="_blank">
+                    Festival Tweetakt
+                    <p>Fort Ruigenhoek</p>
+                    <p>Groenekan, NL</p>
+                </a>
+            </li>
+            <div class="item collection">
+                    
+                <li class="item date">
+                    <span>14.06.2023</span><span class="line"></span>
+                    <span>30.06.2023</span>
+                </li>
+                <li class="item artwork">
+                    <a href="./works/blacktempest.html" target="_blank">
+                        <span>Black Tempest</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+
+        
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://tilburg.com/agenda/expositie-keep-flammables-away-bij-kunstpodium-t/" target="_blank">
+                    <em>Keep Flammables Away</em>
+                    <p>Kunstpodium T</p>
+                    <p>Tilburg, NL</p>
+                </a>
+            </li>
+            <div class="item collection">
+                    
+                <li class="item date">
+                    <span>13.04.2023</span><span class="line"></span>
+                    <span>13.04.2023</span>
+                </li>
+                <li class="item artwork">
+                    <a href="./works/caketin.html" target="_blank">
+                        <span>Cake Tin</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+
+
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://brutus.nl/en/programme/current/through+bone+and+marrow/" target="_blank">
+                    <em>Through Bone and Marrow</em>
+                    <p>BRUTUS</p>
+                    <p>Rotterdam, NL</p>
+                </a>
+            </li>
+            <div class="item collection">
+                    
+                <li class="item date">
+                    <span>02.04.2023</span><span class="line"></span>
+                    <span>23.06.2023</span>
+                </li>
+                <li class="item artwork">
+                    <a href="./works/forcedswitch.html" target="_blank" title="See project details">
+                        <span>Forced Switch</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+
+
+        <ul class="event_item">
+            <li class="item title">
+                <a>
+                    DRUGS & AI
+                    <p>Museum of the Future</p>
+                    <p>Enschede, NL</p>
+                </a>
+            </li>
+            <div class="item collection">
+                    
+                <li class="item date">
+                    <span>01.04.2023</span><span class="line"></span>
+                    <span>07.09.2023</span>
+                </li>
+                <li class="item artwork">
+                    <a href="./works/immuunsysteem.html" target="_blank">
+                        <span>Immuunsysteem</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+
+
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://www.planetartverslaat.nl/tec-art-festivalverslag-2023" target="_blank">
+                    TEC ART
+                    <p>S/ASH Gallery</p>
+                    <p>Rotterdam, NL</p>
+                </a>
+            </li>
+            <div class="item collection">
+                    
+                <li class="item date">
+                    <span>08.02.2023</span><span class="line"></span>
+                    <span>12.02.2023</span>
+                </li>
+                <li class="item artwork">
+                    <a href="./works/immuunsysteem.html" target="_blank">
+                        <span>Immuunsysteem</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+        
+
+
+
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://thenewcurrent.org/previous-editions" target="_blank">
+                    The New Current
+                    <p>BRUTUS</p>
+                    <p>Rotterdam, NL</p>
+                </a>
+            </li>
+            <div class="item collection">
+                    
+                <li class="item date">
+                    <span>07.02.2023</span><span class="line"></span>
+                    <span>12.02.2023</span>
+                </li>
+                <li class="item artwork">
+                    <a href="./works/forcedswitch.html" target="_blank" title="See project details">
+                        <span>Forced Switch</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+
+
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://mediaartfriesland.nl/archief-en/luna-2023-en/" target="_blank">
+                    LUNA Young Masters
+                    <p>Stationskwartier</p>
+                    <p>Leeuwarden, NL</p>
+                </a>
+            </li>
+            <div class="item collection">
+                    
+                <li class="item date">
+                    <span>03.02.2023</span><span class="line"></span>
+                    <span>19.02.2023</span>
+                </li>
+                <li class="item artwork">
+                    <a href="./works/blacktempest.html" target="_blank">
+                        <span>Black Tempest</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+
+
+        
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://www.gogbot.nl/editions/so-future---from-solarpunk-to-metaf-ck" target="_blank">
+                    GOGBOT Festival
+                    <p>Black Brick Underground</p>
+                    <p>Enschede, NL</p>
+                </a>
+            </li>
+            <div class="item collection">
+                    
+                <li class="item date">
+                    <span>08.09.2022</span><span class="line"></span>
+                    <span>11.09.2022</span>
+                </li>
+                <li class="item artwork">
+                    <a href="./works/forcedswitch.html" target="_blank" title="See project details">
+                        <span>Forced Switch</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+
+
+
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://graduation.kabk.nl/2022/zhao-zhou" target="_blank">
+                    Graduation Festival
+                    <p>Royal Academy of Art</p>
+                    <p>The Hague, NL</p>
+                </a>
+            </li>
+            <div class="item collection">
+                    
+                <li class="item date">
+                    <span>03.07.2022</span><span class="line"></span>
+                    <span>08.07.2022</span>
+                </li>
+                <li class="item artwork">
+                    <a href="./works/forcedswitch.html" target="_blank" title="See project details">
+                        <span>Forced Switch</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+
+
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://www.kabk.nl/en/projects/kabk-iafd-kb-open-digital-libraries" target="_blank">
+                    IAFD X KB - Friends from the Past
+                    <p>Royal Library</p>
+                    <p>The Hague, NL</p>
+                </a>
+            </li>
+            <div class="item collection">
+                    
+                <li class="item date">
+                    <span>16.12.2021</span><span class="line"></span>
+                    <span>20.12.2021</span>
+                </li>
+                <li class="item artwork">
+                    <a href="./works/inhetarchiefgraven.html" target="_blank">
+                        <span>Digging in the Archive</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+
+
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://www.kabk.nl/projecten/hello-mumbai-parade-of-floating-objects" target="_blank">
+                    Hello Mumbai! - Parade of Floating Objects
+                    <p>Zuiderstrand</p>
+                    <p>The Hague, NL</p>
+                </a>
+            </li>
+            <div class="item collection">
+                    
+                <li class="item date">
+                    <span>04.06.2019</span><span class="line"></span>
+                    <span>04.06.2019</span>
+                </li>
+            </div>
+        </ul>
+
+
+
+        <ul class="event_item">
+            <li class="item title">
+                <a href="https://hellowood.eu/edu-project/cabin-fever-2018" target="_blank">
+                    Cabin Fever
+                    <p>Hello Wood</p>
+                    <p>Csóromfölde, HUN</p>
+                </a>
+            </li>
+            <div class="item collection">
+                    
+                <li class="item date">
+                    <span>08.06.2018</span><span class="line"></span>
+                    <span>16.06.2018</span>
+                </li>
+                <li class="item artwork">
+                    <a href="https://hellowood.eu/education/project/i-am-monument" target="_blank">
+                        <span>I am a monument</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+
+
+
+
+    </div>
+    </main>
+
+    
+
+    <footer class="footer">
+        <div class="footer_container">
+            <div class="footer_column left">
+                <div>
+                    <p><a class="email-link" href="mailto:zhao.zhou@outlook.com?subject=Hello&body=Zhao&from=Zhao%20Zhou" title="Send me a digital postcard">zhao.zhou@outlook.com</a></p>
+                    <a href="tel:+31612191638" class="footer-phone" title="Give me a call">+31 6 12191638</a>
+                    <p><a href="https://instagram.com/zhao.pian?" target="_blank" title="Follow along online">Instagram</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./js/simpleTheme.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="./js/unifiedNavigation.js"></script>
+    <script src="./js/cursorForce.js"></script>
+    <script src="./js/dateEffect.js"></script>
+    <script src="./js/lastUpdated.js"></script>
+    <!-- 100% privacy-first analytics -->
+    <script data-collect-dnt="true" async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+<script defer src="https://cdn.overtracking.com/t/txfmtIDuX4qQyBwhC/"></script>
+</body>
+</html>

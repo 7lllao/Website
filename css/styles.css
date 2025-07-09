@@ -1,0 +1,292 @@
+/* Css document */
+*, *::after, *::before{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+
+/* Algemene custom properties */
+:root{
+    --main-color:#fff;
+    --background-color:rgba(0,0,255,0.02);
+
+    --p-color:rgb(0,0,255);
+    --link-hover-color:rgba(0,0,255,0.5);
+    --font-color-accent:rgba(0,0,0,0.5);
+
+    --button-color:#fff;
+    --button-background-color:#fff;
+
+    --h1-color:rgb(0,0,255);
+    --h2-color:rgb(0,0,255);
+    --h3-color:rgb(0,0,255);
+
+    --white-space:.5em;
+
+    --normal-padding:.5em;
+    --normal-margin:.5em;
+
+    --font-family:'Times New Roman', Times, serif;;
+    --font-family-sans:"fira-sans";
+
+    --font-size:1em;
+    --font-size-h1: 2.5em;
+    --font-size-h2: 1.2em;
+    --font-size-h2-project: 1.8em;
+    --font-size-h3: 1.6em;
+    --font-size-h4: 1.4em;
+    --font-size-menu: 1.2em;
+
+    --letter-spacing: .5em;
+    --letter-spacing-inline: .2em;
+}
+
+/*Algemene styling*/
+body{
+    background-color: var(--background-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* nav styling */
+nav{
+    padding: 1em 1.5em 1em 1.5em;
+}
+
+nav ul{
+    display: flex;
+    padding: 0;
+}
+
+nav ul li{
+    list-style-type: none;
+}
+
+nav span{
+    font-size: var(--font-size-h4);
+}
+
+nav span a{
+    text-decoration: none;
+    color: var(--p-color);
+}
+
+nav button{
+   border: none;
+   color: var(--p-color);
+   text-decoration: none;
+   background-color: rgba(255,255,255,0);
+  padding: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 1em 1.5em;
+  z-index: 10;
+}
+
+nav button p{
+    text-transform: lowercase;
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-menu);
+}
+
+header nav div{
+    background-color: #f0f3fe95;
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    z-index: 5;
+    display: grid;
+    grid-auto-columns: min-content;
+    place-content: center;
+    text-align: center;
+    top: 0;
+    left: 0;
+    transform: translateX(0%);
+}
+
+header nav div.toonMenu{
+    animation: auto;
+    transform: translateX(100%);
+}
+
+header nav div ul{
+    flex-direction: column;
+}
+
+header nav div a{
+    text-decoration: none;
+    font-size: 2em;
+    font-weight: 600;
+    font-style: var(--font-family-sans);
+    color: var(--p-color);
+}
+
+header nav div a:hover{
+    color: var(--link-hover-color);
+}
+
+
+/* Main Styling */
+main{
+    padding: 1em 1.5em 1em 1.5em;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hoofd-item{
+    margin: 1.5em 0em 1.5em 0em;
+}
+
+.hoofd-item a{
+    text-decoration: none;
+}
+
+img{
+    width: 100%;
+    height: auto;
+}
+
+.hoofd-item-div{
+    display: flex;
+    margin-top: .8em;
+}
+
+
+.verticalline{
+    border-left: solid rgba(0,0,0,0.5);
+    border-width: .15em;
+    margin-right: .5em;
+    margin-left: .5em;
+}
+
+.hoofd-item-div p{
+    margin-top: .2em;
+    color: var(--font-color-accent);
+    font-size: .9em;
+}
+
+.hoofd-item-div2{
+    display: flex;
+    justify-content: end;
+    margin-top: .8em;
+}
+
+/*Titels*/
+h1{
+    color: var(--h1-color);
+    font-size: var(--font-size-h1);
+    font-family: var(--font-family-sans);
+    font-weight: 400;
+}
+
+.alinea-about-me-dark-title{
+    color: var(--font-color-accent);
+    font-weight: 600;
+    font-family: var(--font-family-sans);
+    margin-top: 1em;
+}
+
+/* Text */
+p{
+    color: var(--p-color);
+    font-size: var(--font-size);
+}
+
+p.alinea-about-me{
+    margin: 1.2em 0em 1.2em 0em;
+    font-family: var(--font-family-sans);
+}
+
+.alinea-about-me-dark{
+    font-family: var(--font-family-sans);
+    color: var(--font-color-accent);
+}
+
+h2{
+    color: var(--h2-color);
+    font-size: var(--font-size-h2);
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 400;
+}
+
+ul{
+    padding: 0;
+}
+
+.about-me-ul{
+    margin: .7em 0em .7em 0em;
+}
+
+.about-me-ul li{
+    line-height: 1.2em;
+    height: auto;
+}
+
+li{
+    list-style: none;
+}
+
+/* Project Styling */
+.h2-project{
+    color: var(--h2-color);
+    font-size: var(--font-size-h2-project);
+    font-family: var(--font-family-sans);
+    font-weight: 400;
+    margin: auto 0;
+}
+
+p.p-project{
+    margin: auto 0;
+    color: var(--font-color-accent);
+    font-size: .9em;
+}
+
+div.div-project{
+    margin: 1em 0em 1em 0em;
+}
+
+.video-container{
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+}
+
+.video-container iframe{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.center{
+    text-align: center;
+}
+
+.information{
+    margin-top: 2em;
+}
+
+/* Footer gedeelte */
+footer{
+    text-align: center;
+    margin: var(--normal-margin);
+    padding-bottom: 1em;
+    bottom: 0;
+    margin-top:auto;
+}
+
+/* Contact pagina */
+.contact{
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
