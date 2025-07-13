@@ -107,71 +107,29 @@ document.addEventListener('DOMContentLoaded', function() {
         menuList.appendChild(li);
     });
     
-    // Create a hint text element with more spacing
+    // Create a hint text element
     const hintText = document.createElement('div');
     hintText.classList.add('menu-hint');
     hintText.textContent = "tap anywhere to close";
     hintText.style.color = colors.hintColor;
-    hintText.style.fontSize = 'calc(var(--normal-font) * .8)';
-    hintText.style.marginTop = '3em'; // Add significant spacing above hint text
-    
-    // Create theme toggle (text-only)
-    const themeToggle = document.createElement('div');
-    themeToggle.classList.add('theme-toggle-mobile');
-    const currentTheme = getCurrentTheme();
-    themeToggle.textContent = currentTheme === 'dark' ? 'Light' : 'Dark';
-    themeToggle.style.fontSize = 'calc(var(--normal-font) * 0.8)';
-    themeToggle.style.color = colors.updateColor;
-    themeToggle.style.cursor = 'pointer';
-    themeToggle.style.userSelect = 'none';
-    themeToggle.style.transition = 'color 0.2s ease';
+    hintText.style.fontSize = 'calc(var(--normal-font) * .8)'; // Increase font size by 0.25
     
     // Create update date text
     const updateDate = document.createElement('div');
     updateDate.classList.add('update-date');
     updateDate.textContent = "updated: 10.03.25";
+    updateDate.style.position = 'absolute';
+    updateDate.style.bottom = '2.05em';
+    updateDate.style.right = '1.5em';
     updateDate.style.fontSize = 'calc(var(--normal-font) * 0.8)';
     updateDate.style.color = colors.updateColor;
     updateDate.style.userSelect = 'none';
     updateDate.style.pointerEvents = 'none';
     
-    // Create bottom container for theme toggle and update date
-    const bottomContainer = document.createElement('div');
-    bottomContainer.classList.add('mobile-menu-bottom');
-    bottomContainer.style.position = 'absolute';
-    bottomContainer.style.bottom = '2.05em';
-    bottomContainer.style.left = '1.5em';
-    bottomContainer.style.right = '1.5em';
-    bottomContainer.style.display = 'flex';
-    bottomContainer.style.justifyContent = 'space-between';
-    bottomContainer.style.alignItems = 'center';
-    
-    // Add theme toggle and update date to bottom container
-    bottomContainer.appendChild(themeToggle);
-    bottomContainer.appendChild(updateDate);
-    
     // Assemble the menu
     mobileMenu.appendChild(menuList);
     mobileMenu.appendChild(hintText);
-    mobileMenu.appendChild(bottomContainer); // Add the bottom container with theme toggle and update date
-    
-    // Add theme toggle functionality
-    themeToggle.addEventListener('click', function(e) {
-        e.stopPropagation(); // Prevent menu from closing
-        
-        // Get current theme and toggle it
-        const currentTheme = getCurrentTheme();
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
-        // Apply new theme
-        document.documentElement.setAttribute('data-theme', newTheme);
-        
-        // Update toggle text to show what clicking will do
-        themeToggle.textContent = newTheme === 'dark' ? 'Light' : 'Dark';
-        
-        // Update all theme colors
-        updateThemeColors();
-    });
+    mobileMenu.appendChild(updateDate); // Add the update date to the menu
     
     // Add elements to the DOM
     document.body.appendChild(menuButton);
@@ -301,7 +259,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to update theme colors dynamically
     function updateThemeColors() {
         const newColors = getThemeColors();
-        const currentTheme = getCurrentTheme();
         
         // Update mobile menu background
         mobileMenu.style.backgroundColor = newColors.menuBackground;
@@ -311,10 +268,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Update date color
         updateDate.style.color = newColors.updateColor;
-        
-        // Update theme toggle color and text
-        themeToggle.style.color = newColors.updateColor;
-        themeToggle.textContent = currentTheme === 'dark' ? 'Light' : 'Dark';
         
         // Update shader uniforms if material exists
         if (material) {
@@ -400,7 +353,7 @@ document.addEventListener('DOMContentLoaded', function() {
         closeMenu();
     });
     
-    // Close menu when clicking anywhere in the mobile menu EXCEPT the menu items and theme toggle
+    // Close menu when clicking anywhere in the mobile menu EXCEPT the menu items
     mobileMenu.addEventListener('click', function(e) {
         if (e.target === mobileMenu || e.target === hintText) {
             closeMenu();
@@ -409,11 +362,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Prevent clicks on menu items from closing the menu
     menuList.addEventListener('click', function(e) {
-        e.stopPropagation();
-    });
-    
-    // Prevent clicks on bottom container (theme toggle area) from closing the menu
-    bottomContainer.addEventListener('click', function(e) {
         e.stopPropagation();
     });
     

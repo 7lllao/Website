@@ -19,6 +19,8 @@ class SeamlessNavigation {
         this.menuList = null;
         this.hintText = null;
         this.updateDate = null;
+        this.themeToggle = null;
+        this.bottomContainer = null;
         this.threeContainer = null;
         this.renderer = null;
         this.scene = null;
@@ -780,29 +782,71 @@ class SeamlessNavigation {
             this.menuList.appendChild(li);
         });
         
-        // Create hint text
+        // Create hint text with more spacing
         this.hintText = document.createElement('div');
         this.hintText.classList.add('menu-hint');
         this.hintText.textContent = "tap anywhere to close";
         this.hintText.style.color = colors.hintColor;
         this.hintText.style.fontSize = 'calc(var(--normal-font) * .8)';
+        this.hintText.style.marginTop = '3em'; // Add significant spacing above hint text
+        
+        // Create theme toggle (text-only)
+        this.themeToggle = document.createElement('div');
+        this.themeToggle.classList.add('theme-toggle-mobile');
+        const currentTheme = this.getCurrentTheme();
+        this.themeToggle.textContent = currentTheme === 'dark' ? 'Light' : 'Dark';
+        this.themeToggle.style.fontSize = 'calc(var(--normal-font) * 0.8)';
+        this.themeToggle.style.color = colors.updateColor;
+        this.themeToggle.style.cursor = 'pointer';
+        this.themeToggle.style.userSelect = 'none';
+        this.themeToggle.style.transition = 'color 0.2s ease';
         
         // Create update date
         this.updateDate = document.createElement('div');
         this.updateDate.classList.add('update-date');
         this.updateDate.textContent = "updated: 10.03.25";
-        this.updateDate.style.position = 'absolute';
-        this.updateDate.style.bottom = '2.05em';
-        this.updateDate.style.right = '1.5em';
         this.updateDate.style.fontSize = 'calc(var(--normal-font) * 0.8)';
         this.updateDate.style.color = colors.updateColor;
         this.updateDate.style.userSelect = 'none';
         this.updateDate.style.pointerEvents = 'none';
         
+        // Create bottom container for theme toggle and update date
+        this.bottomContainer = document.createElement('div');
+        this.bottomContainer.classList.add('mobile-menu-bottom');
+        this.bottomContainer.style.position = 'absolute';
+        this.bottomContainer.style.bottom = '2.05em';
+        this.bottomContainer.style.left = '1.5em';
+        this.bottomContainer.style.right = '1.5em';
+        this.bottomContainer.style.display = 'flex';
+        this.bottomContainer.style.justifyContent = 'space-between';
+        this.bottomContainer.style.alignItems = 'center';
+        
+        // Add theme toggle and update date to bottom container
+        this.bottomContainer.appendChild(this.themeToggle);
+        this.bottomContainer.appendChild(this.updateDate);
+        
         // Assemble menu
         this.mobileMenu.appendChild(this.menuList);
         this.mobileMenu.appendChild(this.hintText);
-        this.mobileMenu.appendChild(this.updateDate);
+        this.mobileMenu.appendChild(this.bottomContainer); // Add the bottom container with theme toggle and update date
+        
+        // Add theme toggle functionality
+        this.themeToggle.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent menu from closing
+            
+            // Get current theme and toggle it
+            const currentTheme = this.getCurrentTheme();
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            // Apply new theme
+            document.documentElement.setAttribute('data-theme', newTheme);
+            
+            // Update toggle text to show what clicking will do
+            this.themeToggle.textContent = newTheme === 'dark' ? 'Light' : 'Dark';
+            
+            // Update all theme colors
+            this.updateThemeColors();
+        });
         
         // Add to DOM
         document.body.appendChild(this.menuButton);
@@ -923,6 +967,7 @@ class SeamlessNavigation {
     
     updateThemeColors() {
         const newColors = this.getThemeColors();
+        const currentTheme = this.getCurrentTheme();
         
         if (this.mobileMenu) {
             this.mobileMenu.style.backgroundColor = newColors.menuBackground;
@@ -932,6 +977,12 @@ class SeamlessNavigation {
         }
         if (this.updateDate) {
             this.updateDate.style.color = newColors.updateColor;
+        }
+        
+        // Update theme toggle color and text
+        if (this.themeToggle) {
+            this.themeToggle.style.color = newColors.updateColor;
+            this.themeToggle.textContent = currentTheme === 'dark' ? 'Light' : 'Dark';
         }
         
         if (this.material) {
@@ -962,7 +1013,7 @@ class SeamlessNavigation {
             }
         });
         
-        // Menu click (except items)
+        // Menu click (except items and theme toggle)
         this.mobileMenu.addEventListener('click', (e) => {
             if (e.target === this.mobileMenu || e.target === this.hintText) {
                 this.closeMobileMenu();
@@ -973,6 +1024,13 @@ class SeamlessNavigation {
         this.menuList.addEventListener('click', (e) => {
             e.stopPropagation();
         });
+        
+        // Prevent clicks on bottom container (theme toggle area) from closing the menu
+        if (this.bottomContainer) {
+            this.bottomContainer.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
         
         // Menu item clicks - use seamless navigation with proper event handling
         this.menuList.querySelectorAll('a').forEach(link => {
