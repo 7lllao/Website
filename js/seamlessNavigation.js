@@ -825,10 +825,18 @@ class SeamlessNavigation {
         this.themeToggle.appendChild(separator);
         this.themeToggle.appendChild(this.lightOption);
         
-        // Create update date
+        // Create update date with dynamic date
         this.updateDate = document.createElement('div');
         this.updateDate.classList.add('update-date');
-        this.updateDate.textContent = "updated: 10.03.25";
+        
+        // Get the last modified date and format it
+        const lastModDate = new Date(document.lastModified);
+        const day = lastModDate.getDate().toString().padStart(2, '0');
+        const month = (lastModDate.getMonth() + 1).toString().padStart(2, '0');
+        const year = lastModDate.getFullYear().toString().slice(-2);
+        const formattedDate = `${day}.${month}.${year}`;
+        
+        this.updateDate.textContent = `updated: ${formattedDate}`;
         this.updateDate.style.fontSize = 'calc(var(--normal-font) * 0.8)';
         this.updateDate.style.color = colors.updateColor;
         this.updateDate.style.userSelect = 'none';
