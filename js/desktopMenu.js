@@ -33,12 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
             item.setAttribute('data-showing-initial', shouldShowInitial);
         });
         
-        // Adjust menu gap based on window width
-        if (windowWidth <= 720) {
-            menu.style.gap = '0.4em';
-        } else {
-            menu.style.gap = '0.8em';
-        }
+        // Menu gap now handled by CSS clamp() for smooth responsive scaling
     }
     
     // Initial update
