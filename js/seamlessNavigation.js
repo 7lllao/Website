@@ -20,6 +20,8 @@ class SeamlessNavigation {
         this.hintText = null;
         this.updateDate = null;
         this.themeToggle = null;
+        this.darkOption = null;
+        this.lightOption = null;
         this.bottomContainer = null;
         this.threeContainer = null;
         this.renderer = null;
@@ -790,16 +792,38 @@ class SeamlessNavigation {
         this.hintText.style.fontSize = 'calc(var(--normal-font) * .8)';
         this.hintText.style.marginTop = '3em'; // Add significant spacing above hint text
         
-        // Create theme toggle (text-only)
+        // Create theme toggle with Dark / Light format
         this.themeToggle = document.createElement('div');
         this.themeToggle.classList.add('theme-toggle-mobile');
-        const currentTheme = this.getCurrentTheme();
-        this.themeToggle.textContent = currentTheme === 'dark' ? 'Light' : 'Dark';
         this.themeToggle.style.fontSize = 'calc(var(--normal-font) * 0.8)';
-        this.themeToggle.style.color = colors.updateColor;
         this.themeToggle.style.cursor = 'pointer';
         this.themeToggle.style.userSelect = 'none';
         this.themeToggle.style.transition = 'color 0.2s ease';
+        
+        // Create individual clickable elements for Dark and Light
+        this.darkOption = document.createElement('span');
+        this.darkOption.textContent = 'Dark';
+        this.darkOption.style.cursor = 'pointer';
+        this.darkOption.style.transition = 'color 0.2s ease';
+        
+        this.lightOption = document.createElement('span');
+        this.lightOption.textContent = 'Light';
+        this.lightOption.style.cursor = 'pointer';
+        this.lightOption.style.transition = 'color 0.2s ease';
+        
+        const separator = document.createElement('span');
+        separator.textContent = ' / ';
+        separator.style.color = colors.updateColor;
+        
+        // Set initial colors based on current theme
+        const currentTheme = this.getCurrentTheme();
+        this.darkOption.style.color = currentTheme === 'dark' ? 'var(--color-text)' : colors.updateColor;
+        this.lightOption.style.color = currentTheme === 'light' ? 'var(--color-text)' : colors.updateColor;
+        
+        // Assemble theme toggle
+        this.themeToggle.appendChild(this.darkOption);
+        this.themeToggle.appendChild(separator);
+        this.themeToggle.appendChild(this.lightOption);
         
         // Create update date
         this.updateDate = document.createElement('div');
@@ -830,19 +854,23 @@ class SeamlessNavigation {
         this.mobileMenu.appendChild(this.hintText);
         this.mobileMenu.appendChild(this.bottomContainer); // Add the bottom container with theme toggle and update date
         
-        // Add theme toggle functionality
-        this.themeToggle.addEventListener('click', (e) => {
+        // Add theme toggle functionality for Dark option
+        this.darkOption.addEventListener('click', (e) => {
             e.stopPropagation(); // Prevent menu from closing
             
-            // Get current theme and toggle it
-            const currentTheme = this.getCurrentTheme();
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            // Apply dark theme
+            document.documentElement.setAttribute('data-theme', 'dark');
             
-            // Apply new theme
-            document.documentElement.setAttribute('data-theme', newTheme);
+            // Update all theme colors
+            this.updateThemeColors();
+        });
+        
+        // Add theme toggle functionality for Light option
+        this.lightOption.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent menu from closing
             
-            // Update toggle text to show what clicking will do
-            this.themeToggle.textContent = newTheme === 'dark' ? 'Light' : 'Dark';
+            // Apply light theme
+            document.documentElement.setAttribute('data-theme', 'light');
             
             // Update all theme colors
             this.updateThemeColors();
@@ -979,10 +1007,10 @@ class SeamlessNavigation {
             this.updateDate.style.color = newColors.updateColor;
         }
         
-        // Update theme toggle color and text
-        if (this.themeToggle) {
-            this.themeToggle.style.color = newColors.updateColor;
-            this.themeToggle.textContent = currentTheme === 'dark' ? 'Light' : 'Dark';
+        // Update theme toggle colors for Dark/Light options
+        if (this.darkOption && this.lightOption) {
+            this.darkOption.style.color = currentTheme === 'dark' ? 'var(--color-text)' : newColors.updateColor;
+            this.lightOption.style.color = currentTheme === 'light' ? 'var(--color-text)' : newColors.updateColor;
         }
         
         if (this.material) {
