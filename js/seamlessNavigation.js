@@ -887,6 +887,11 @@ class SeamlessNavigation {
         // Add to DOM
         document.body.appendChild(this.menuButton);
         document.body.appendChild(this.mobileMenu);
+        
+        // Update the date after a short delay to allow lastUpdated.js to run
+        setTimeout(() => {
+            this.updateMobileMenuDate();
+        }, 100);
     }
     
     setupMobileMenuPositioning() {
@@ -1031,6 +1036,49 @@ class SeamlessNavigation {
         // Update base URL and mobile menu after navigation
         this.baseUrl = this.detectBaseUrl();
         console.log(`Page context updated: baseUrl = ${this.baseUrl}, currentPage = ${this.currentPage}`);
+        
+        // Update mobile menu date if mobile menu exists
+        if (this.updateDate && this.isMobile) {
+            this.updateMobileMenuDate();
+        }
+    }
+    
+    updateMobileMenuDate() {
+        // Try to get date from the footer's last-updated element (created by lastUpdated.js)
+        const lastUpdatedElement = document.querySelector('#last-updated');
+        
+        if (lastUpdatedElement) {
+            // Extract the date from the footer element and reformat for mobile menu
+            const footerText = lastUpdatedElement.textContent;
+            const dateMatch = footerText.match(/Last updated: (.+)/);
+            
+            if (dateMatch) {
+                // Convert from "13 July 2025" format to "13.07.25" format
+                const fullDate = dateMatch[1];
+                try {
+                    const parsedDate = new Date(fullDate);
+                    const day = parsedDate.getDate().toString().padStart(2, '0');
+                    const month = (parsedDate.getMonth() + 1).toString().padStart(2, '0');
+                    const year = parsedDate.getFullYear().toString().slice(-2);
+                    const formattedDate = `${day}.${month}.${year}`;
+                    
+                    this.updateDate.textContent = `updated: ${formattedDate}`;
+                    console.log(`Mobile menu date updated to: ${formattedDate}`);
+                } catch (error) {
+                    console.warn('Failed to parse date from footer:', fullDate);
+                }
+            }
+        } else {
+            // Fallback: use document.lastModified of current document
+            const lastModDate = new Date(document.lastModified);
+            const day = lastModDate.getDate().toString().padStart(2, '0');
+            const month = (lastModDate.getMonth() + 1).toString().padStart(2, '0');
+            const year = lastModDate.getFullYear().toString().slice(-2);
+            const formattedDate = `${day}.${month}.${year}`;
+            
+            this.updateDate.textContent = `updated: ${formattedDate}`;
+            console.log(`Mobile menu date fallback to document date: ${formattedDate}`);
+        }
     }
     
     // Mobile menu links now use absolute paths - no updates needed
