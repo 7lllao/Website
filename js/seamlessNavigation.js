@@ -620,35 +620,105 @@ class SeamlessNavigation {
     }
     
     normalizeAssetPaths(element, pageHref) {
-        // Get the directory context of the loaded page
-        const pageParts = pageHref.split('/');
-        const pageDir = pageParts.slice(0, -1).join('/');
-        const isSubDirectory = pageDir.includes('/') || pageDir.includes('../');
+        // Determine the current page context and target page context
+        const currentPath = window.location.pathname;
+        const currentParts = currentPath.split('/').filter(part => part !== '');
+        const targetParts = pageHref.split('/').filter(part => part !== '');
+        
+        // Check if we're navigating between different directory levels
+        const currentInSubdir = currentParts.length > 1 || (currentParts.length === 1 && currentParts[0].includes('.html') && currentPath.includes('/works/'));
+        const targetInRoot = targetParts.length === 0 || (targetParts.length === 1 && targetParts[0].includes('index'));
+        
+        console.log('normalizeAssetPaths:', {
+            currentPath,
+            pageHref,
+            currentInSubdir,
+            targetInRoot,
+            currentParts,
+            targetParts
+        });
         
         // Update image src attributes
         element.querySelectorAll('img').forEach(img => {
             const src = img.getAttribute('src');
-            if (src && src.startsWith('../')) {
-                // Already relative, ensure it works from current context
-                img.setAttribute('src', src);
+            if (src && !src.startsWith('http')) {
+                let newSrc = src;
+                
+                // If navigating from subdirectory to root
+                if (currentInSubdir && targetInRoot) {
+                    if (src.startsWith('./')) {
+                        // Remove the ./ prefix for root level assets
+                        newSrc = src.substring(2);
+                    }
+                } 
+                // If navigating from root to subdirectory
+                else if (!currentInSubdir && !targetInRoot) {
+                    if (src.startsWith('../')) {
+                        // Keep the ../ prefix as is
+                        newSrc = src;
+                    }
+                }
+                
+                if (newSrc !== src) {
+                    console.log(`Updating image src: ${src} -> ${newSrc}`);
+                    img.setAttribute('src', newSrc);
+                }
             }
         });
         
         // Update video src attributes
         element.querySelectorAll('video').forEach(video => {
             const src = video.getAttribute('src');
-            if (src && src.startsWith('../')) {
-                // Already relative, ensure it works from current context
-                video.setAttribute('src', src);
+            if (src && !src.startsWith('http')) {
+                let newSrc = src;
+                
+                // If navigating from subdirectory to root
+                if (currentInSubdir && targetInRoot) {
+                    if (src.startsWith('./')) {
+                        // Remove the ./ prefix for root level assets
+                        newSrc = src.substring(2);
+                    }
+                } 
+                // If navigating from root to subdirectory
+                else if (!currentInSubdir && !targetInRoot) {
+                    if (src.startsWith('../')) {
+                        // Keep the ../ prefix as is
+                        newSrc = src;
+                    }
+                }
+                
+                if (newSrc !== src) {
+                    console.log(`Updating video src: ${src} -> ${newSrc}`);
+                    video.setAttribute('src', newSrc);
+                }
             }
         });
         
         // Update source elements in videos
         element.querySelectorAll('source').forEach(source => {
             const src = source.getAttribute('src');
-            if (src && src.startsWith('../')) {
-                // Already relative, ensure it works from current context
-                source.setAttribute('src', src);
+            if (src && !src.startsWith('http')) {
+                let newSrc = src;
+                
+                // If navigating from subdirectory to root
+                if (currentInSubdir && targetInRoot) {
+                    if (src.startsWith('./')) {
+                        // Remove the ./ prefix for root level assets
+                        newSrc = src.substring(2);
+                    }
+                } 
+                // If navigating from root to subdirectory
+                else if (!currentInSubdir && !targetInRoot) {
+                    if (src.startsWith('../')) {
+                        // Keep the ../ prefix as is
+                        newSrc = src;
+                    }
+                }
+                
+                if (newSrc !== src) {
+                    console.log(`Updating source src: ${src} -> ${newSrc}`);
+                    source.setAttribute('src', newSrc);
+                }
             }
         });
         
