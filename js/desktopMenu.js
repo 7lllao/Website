@@ -45,4 +45,10 @@ document.addEventListener('DOMContentLoaded', function() {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(updateMenu, 20);
     });
+    
+    // Listen for seamless navigation events to ensure menu state persists
+    window.addEventListener('seamlessNavigation', function() {
+        // Re-run menu update after navigation to ensure proper state
+        updateMenu();
+    });
 });

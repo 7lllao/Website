@@ -22,6 +22,8 @@ class SeamlessNavigation {
         this.themeToggle = null;
         this.darkOption = null;
         this.lightOption = null;
+        this.currentPageIndicator = null;
+        this.pageInfoContainer = null;
         this.bottomContainer = null;
         this.threeContainer = null;
         this.renderer = null;
@@ -54,6 +56,42 @@ class SeamlessNavigation {
             fogColor: isDark ? 0.15 : 0.9,
             fogAlpha: isDark ? 0.4 : 0.7
         };
+    }
+    
+    getCurrentPageName() {
+        // Extract page name from document title or URL
+        const title = document.title;
+        
+        // If title follows "Zhao Zhou | PageName" format, extract the page name
+        if (title.includes('| ')) {
+            const parts = title.split('| ');
+            if (parts.length > 1) {
+                return parts[1].toLowerCase();
+            }
+        }
+        
+        // Fallback: extract from URL path
+        const pathname = window.location.pathname;
+        const pathParts = pathname.split('/').filter(part => part !== '');
+        
+        if (pathParts.length === 0 || pathname === '/') {
+            return 'home';
+        }
+        
+        // Get the last part of the path
+        const lastPart = pathParts[pathParts.length - 1];
+        
+        // If it's an HTML file, remove the extension
+        if (lastPart.includes('.html')) {
+            return lastPart.replace('.html', '');
+        }
+        
+        // If it's index.html or empty, return "home"
+        if (lastPart === 'index' || lastPart === '') {
+            return 'home';
+        }
+        
+        return lastPart;
     }
     
     detectBaseUrl() {
@@ -825,6 +863,16 @@ class SeamlessNavigation {
         this.themeToggle.appendChild(separator);
         this.themeToggle.appendChild(this.lightOption);
         
+        // Create current page indicator
+        this.currentPageIndicator = document.createElement('div');
+        this.currentPageIndicator.classList.add('current-page-indicator');
+        this.currentPageIndicator.textContent = `current page: ${this.getCurrentPageName()}`;
+        this.currentPageIndicator.style.fontSize = 'calc(var(--normal-font) * 0.8)';
+        this.currentPageIndicator.style.color = colors.updateColor;
+        this.currentPageIndicator.style.userSelect = 'none';
+        this.currentPageIndicator.style.pointerEvents = 'none';
+        this.currentPageIndicator.style.marginBottom = '0.2em';
+        
         // Create update date with dynamic date
         this.updateDate = document.createElement('div');
         this.updateDate.classList.add('update-date');
@@ -842,7 +890,16 @@ class SeamlessNavigation {
         this.updateDate.style.userSelect = 'none';
         this.updateDate.style.pointerEvents = 'none';
         
-        // Create bottom container for theme toggle and update date
+        // Create container for page info (current page + update date)
+        this.pageInfoContainer = document.createElement('div');
+        this.pageInfoContainer.classList.add('page-info-container');
+        this.pageInfoContainer.style.display = 'flex';
+        this.pageInfoContainer.style.flexDirection = 'column';
+        this.pageInfoContainer.style.alignItems = 'flex-end';
+        this.pageInfoContainer.appendChild(this.currentPageIndicator);
+        this.pageInfoContainer.appendChild(this.updateDate);
+        
+        // Create bottom container for theme toggle and page info
         this.bottomContainer = document.createElement('div');
         this.bottomContainer.classList.add('mobile-menu-bottom');
         this.bottomContainer.style.position = 'absolute';
@@ -851,11 +908,11 @@ class SeamlessNavigation {
         this.bottomContainer.style.right = '1.5em';
         this.bottomContainer.style.display = 'flex';
         this.bottomContainer.style.justifyContent = 'space-between';
-        this.bottomContainer.style.alignItems = 'center';
+        this.bottomContainer.style.alignItems = 'flex-end';
         
-        // Add theme toggle and update date to bottom container
+        // Add theme toggle and page info container to bottom container
         this.bottomContainer.appendChild(this.themeToggle);
-        this.bottomContainer.appendChild(this.updateDate);
+        this.bottomContainer.appendChild(this.pageInfoContainer);
         
         // Assemble menu
         this.mobileMenu.appendChild(this.menuList);
@@ -1030,6 +1087,13 @@ class SeamlessNavigation {
     updatePageContext() {
         // Update base URL and mobile menu after navigation
         this.baseUrl = this.detectBaseUrl();
+        
+        // Update current page indicator if it exists
+        if (this.currentPageIndicator) {
+            const pageName = this.getCurrentPageName();
+            this.currentPageIndicator.textContent = `current page: ${pageName}`;
+        }
+        
         console.log(`Page context updated: baseUrl = ${this.baseUrl}, currentPage = ${this.currentPage}`);
     }
     
