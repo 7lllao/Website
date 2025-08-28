@@ -904,8 +904,8 @@ class SeamlessNavigation {
         this.topContainer.classList.add('mobile-menu-top');
         this.topContainer.style.position = 'absolute';
         this.topContainer.style.top = '2.05em';
-        this.topContainer.style.left = '1.5em';
-        this.topContainer.style.right = '1.5em';
+        this.topContainer.style.left = '1em'; // Match mobile header padding
+        this.topContainer.style.right = '1em'; // Match mobile header padding  
         this.topContainer.style.display = 'flex';
         this.topContainer.style.justifyContent = 'space-between';
         this.topContainer.style.alignItems = 'flex-start';
@@ -962,7 +962,7 @@ class SeamlessNavigation {
             const headerRect = header.getBoundingClientRect();
             this.menuButton.style.position = 'fixed';
             this.menuButton.style.top = (headerRect.top + headerRect.height / 2) + 'px';
-            this.menuButton.style.right = '1.5em';
+            this.menuButton.style.right = '1em'; // Match mobile header padding
             this.menuButton.style.transform = 'translateY(-50%)';
         };
         
