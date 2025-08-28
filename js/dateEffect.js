@@ -2,7 +2,8 @@
 
 // Function to parse date string in DD.MM.YYYY format
 function parseDate(dateStr) {
-    const [day, month, year] = dateStr.split('.').map(num => parseInt(num));
+    const trimmed = dateStr.trim();
+    const [day, month, year] = trimmed.split('.').map(num => parseInt(num));
     return new Date(year, month - 1, day);
 }
 
@@ -48,7 +49,7 @@ function cleanupAnimations() {
 
 // Function to check viewport and update date display
 function checkAndUpdateAnimations() {
-    const dateElements = document.querySelectorAll('.item.date');
+    const dateElements = document.querySelectorAll('.event_item .item.date');
     const isMobile = window.innerWidth <= 700; // Using 700px to match CSS media query
     
     // Clean up existing animations
@@ -161,4 +162,11 @@ document.addEventListener('DOMContentLoaded', handleDateDisplay);
 window.addEventListener('load', () => {
     // Re-check animations after everything is loaded
     setTimeout(checkAndUpdateAnimations, 100);
+});
+
+// Listen for seamless navigation events and re-initialize
+window.addEventListener('seamlessNavigation', (e) => {
+    setTimeout(() => {
+        handleDateDisplay();
+    }, 100);
 });
