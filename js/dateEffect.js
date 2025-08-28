@@ -14,8 +14,8 @@ function formatDate(date) {
 
 // Function to animate date countdown
 function animateDate(element, endDate, startDate) {
-    const duration = 3000; // Animation duration in milliseconds
-    const fps = 30; // Frames per second
+    const duration = 2500; // Animation duration in milliseconds (slightly faster)
+    const fps = 60; // Frames per second for smoother animation
     const steps = duration / (1000 / fps);
     let currentStep = 0;
 
@@ -27,9 +27,21 @@ function animateDate(element, endDate, startDate) {
         currentStep++;
         if (currentStep <= steps) {
             const currentDate = new Date(endDateTime - (timePerStep * currentStep));
-            element.textContent = formatDate(currentDate);
+            const newText = formatDate(currentDate);
+            
+            // Add subtle fade effect when date changes
+            if (element.textContent !== newText) {
+                element.style.opacity = '0.7';
+                setTimeout(() => {
+                    element.textContent = newText;
+                    element.style.opacity = '1';
+                }, 8); // Very brief fade
+            } else {
+                element.textContent = newText;
+            }
         } else {
             clearInterval(animation);
+            element.style.opacity = '1'; // Ensure final opacity is correct
         }
     }, 1000 / fps);
 

@@ -1040,7 +1040,7 @@ img {
     display: none;
     text-align: right;
     width: 100%;
-    font-family: var(--font-family-sans);
+    transition: color 0.2s ease, opacity 0.1s ease;
 }
 
 .item.title {
@@ -1437,7 +1437,6 @@ body.menu-open {
         display: block;
         text-align: right;
         width: 100%;
-        font-family: var(--font-family-sans);
     }
     
     .event_item .item.date {
