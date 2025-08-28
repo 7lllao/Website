@@ -24,7 +24,7 @@ class SeamlessNavigation {
         this.lightOption = null;
         this.currentPageIndicator = null;
         this.pageInfoContainer = null;
-        this.bottomContainer = null;
+        this.topContainer = null;
         this.threeContainer = null;
         this.renderer = null;
         this.scene = null;
@@ -895,29 +895,29 @@ class SeamlessNavigation {
         this.pageInfoContainer.classList.add('page-info-container');
         this.pageInfoContainer.style.display = 'flex';
         this.pageInfoContainer.style.flexDirection = 'column';
-        this.pageInfoContainer.style.alignItems = 'flex-end';
+        this.pageInfoContainer.style.alignItems = 'flex-start';
         this.pageInfoContainer.appendChild(this.currentPageIndicator);
         this.pageInfoContainer.appendChild(this.updateDate);
         
-        // Create bottom container for theme toggle and page info
-        this.bottomContainer = document.createElement('div');
-        this.bottomContainer.classList.add('mobile-menu-bottom');
-        this.bottomContainer.style.position = 'absolute';
-        this.bottomContainer.style.bottom = '2.05em';
-        this.bottomContainer.style.left = '1.5em';
-        this.bottomContainer.style.right = '1.5em';
-        this.bottomContainer.style.display = 'flex';
-        this.bottomContainer.style.justifyContent = 'space-between';
-        this.bottomContainer.style.alignItems = 'flex-end';
+        // Create top container for theme toggle and page info
+        this.topContainer = document.createElement('div');
+        this.topContainer.classList.add('mobile-menu-top');
+        this.topContainer.style.position = 'absolute';
+        this.topContainer.style.top = '2.05em';
+        this.topContainer.style.left = '1.5em';
+        this.topContainer.style.right = '1.5em';
+        this.topContainer.style.display = 'flex';
+        this.topContainer.style.justifyContent = 'space-between';
+        this.topContainer.style.alignItems = 'flex-start';
         
-        // Add theme toggle and page info container to bottom container
-        this.bottomContainer.appendChild(this.themeToggle);
-        this.bottomContainer.appendChild(this.pageInfoContainer);
+        // Add page info container and theme toggle to top container (swapped order)
+        this.topContainer.appendChild(this.pageInfoContainer);
+        this.topContainer.appendChild(this.themeToggle);
         
         // Assemble menu
+        this.mobileMenu.appendChild(this.topContainer); // Add the top container with meta data and theme toggle
         this.mobileMenu.appendChild(this.menuList);
         this.mobileMenu.appendChild(this.hintText);
-        this.mobileMenu.appendChild(this.bottomContainer); // Add the bottom container with theme toggle and update date
         
         // Add theme toggle functionality for Dark option
         this.darkOption.addEventListener('click', (e) => {
@@ -1133,9 +1133,9 @@ class SeamlessNavigation {
             e.stopPropagation();
         });
         
-        // Prevent clicks on bottom container (theme toggle area) from closing the menu
-        if (this.bottomContainer) {
-            this.bottomContainer.addEventListener('click', (e) => {
+        // Prevent clicks on top container (theme toggle area) from closing the menu
+        if (this.topContainer) {
+            this.topContainer.addEventListener('click', (e) => {
                 e.stopPropagation();
             });
         }
