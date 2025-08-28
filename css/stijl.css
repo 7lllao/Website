@@ -1041,6 +1041,7 @@ img {
     text-align: right;
     width: 100%;
     transition: color 0.2s ease, opacity 0.1s ease;
+    color: var(--color-text);
 }
 
 .item.title {
@@ -1437,6 +1438,7 @@ body.menu-open {
         display: block;
         text-align: right;
         width: 100%;
+        color: var(--color-text);
     }
     
     .event_item .item.date {
