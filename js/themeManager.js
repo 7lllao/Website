@@ -16,6 +16,9 @@ class ThemeManager {
     }
     
     init() {
+        // Set up global toggle function for backward compatibility
+        this.setupGlobalToggleFunction();
+        
         // Check for saved preferences
         const savedTheme = localStorage.getItem(this.storageKey);
         const savedAutoMode = localStorage.getItem(this.autoThemeKey);
@@ -121,7 +124,22 @@ class ThemeManager {
             
             toggleButton.innerHTML = icon;
             toggleButton.title = title;
+            
+            // Set up click handler if not already set
+            if (!toggleButton.hasAttribute('data-handler-set')) {
+                toggleButton.onclick = () => this.toggleTheme();
+                toggleButton.setAttribute('data-handler-set', 'true');
+            }
         }
+    }
+    
+    // Global function for backward compatibility
+    setupGlobalToggleFunction() {
+        window.toggleTheme = () => {
+            if (window.themeManager) {
+                window.themeManager.toggleTheme();
+            }
+        };
     }
     
     getThemeInfo() {

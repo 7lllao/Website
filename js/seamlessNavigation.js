@@ -923,8 +923,12 @@ class SeamlessNavigation {
         this.darkOption.addEventListener('click', (e) => {
             e.stopPropagation(); // Prevent menu from closing
             
-            // Apply dark theme
-            document.documentElement.setAttribute('data-theme', 'dark');
+            // Use ThemeManager if available, otherwise fallback to direct theme setting
+            if (window.themeManager) {
+                window.themeManager.setTheme('dark', true);
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
             
             // Update all theme colors
             this.updateThemeColors();
@@ -934,8 +938,12 @@ class SeamlessNavigation {
         this.lightOption.addEventListener('click', (e) => {
             e.stopPropagation(); // Prevent menu from closing
             
-            // Apply light theme
-            document.documentElement.setAttribute('data-theme', 'light');
+            // Use ThemeManager if available, otherwise fallback to direct theme setting
+            if (window.themeManager) {
+                window.themeManager.setTheme('light', true);
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
             
             // Update all theme colors
             this.updateThemeColors();
