@@ -197,6 +197,9 @@ class SeamlessNavigation {
             this.initMobileNavigation();
         }
         
+        // Initialize work interactions on page load
+        this.initializeWorkInteractions();
+        
         // Setup theme observer
         this.setupThemeObserver();
     }
@@ -737,10 +740,31 @@ class SeamlessNavigation {
         // Re-run any page-specific initialization
         // This is where you'd reinitialize any dynamic content
         
+        // Re-initialize work interactions (like Read More buttons)
+        this.initializeWorkInteractions();
+        
         // Trigger custom event for other scripts to listen to
         window.dispatchEvent(new CustomEvent('seamlessNavigation', {
             detail: { page: this.currentPage }
         }));
+    }
+    
+    initializeWorkInteractions() {
+        // Ensure scrollToDescription function is available globally
+        if (typeof window.scrollToDescription === 'undefined') {
+            window.scrollToDescription = function() {
+                const descriptionElement = document.getElementById('work-description');
+                if (descriptionElement) {
+                    descriptionElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+        }
+        
+        // Re-attach any onclick handlers that might have been lost
+        const readMoreButtons = document.querySelectorAll('.read-more-btn');
+        readMoreButtons.forEach(button => {
+            button.onclick = window.scrollToDescription;
+        });
     }
     
     handlePopState() {
