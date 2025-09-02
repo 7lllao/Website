@@ -1081,7 +1081,7 @@ img {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: calc(100vh - var(--large-font) - 4em);
     text-align: left;
 }
 
@@ -1413,6 +1413,11 @@ body.menu-open {
     
     .archive-item {
         margin-bottom: 1rem;
+    }
+    
+    /* Contact container mobile adjustment */
+    .contact-container {
+        height: calc(100vh - var(--large-font) - 1em);
     }
 }
 
