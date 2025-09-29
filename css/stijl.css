@@ -49,7 +49,7 @@
     --media-background: var(--color-black);
     --border-color-primary: rgba(74, 64, 53, 0.92); /* Softer earth brown */
     --border-color-secondary: rgba(107, 122, 93, 0.3); /* Dusty sage */
-    --credits-color: var(--color-text);
+    --credits-color: rgba(74, 64, 53, 0.75); /* Warm grey-brown for secondary text */
     
     /* Borders */
     --border-large: clamp(2px, .25vw, 4px) solid var(--border-color-primary);
@@ -895,7 +895,7 @@ img {
     margin: var(--media-credits-gap) auto var(--media-item-gap);
     font-size: calc(var(--normal-font) * 0.75);
     text-align: left;
-    color: rgba(120, 130, 145, 0.3);
+    color: rgba(74, 64, 53, 0.75);
     transition: var(--theme-transition);
     line-height: 1.3;
     padding: 0;
@@ -1149,7 +1149,7 @@ footer a:link {
 #last-updated {
     text-align: left;
     font-size: 16px;
-    color: rgba(120, 130, 145, 0.3);
+    color: rgba(74, 64, 53, 0.75);
     font-family: var(--font-family-sans);
     grid-column: 1;
     transition: var(--theme-transition);
@@ -1434,12 +1434,12 @@ body.menu-open {
 
 /* Mobile Event Items */
 @media screen and (max-width: 700px) {
-    /* Standard event items - hide regular dates, show animated */
-    .event_item .item.date span:not(.animated-date) {
+    /* Standard event items - show only first date span (start date) */
+    .event_item .item.date span {
         display: none;
     }
     
-    .event_item .item.date .animated-date {
+    .event_item .item.date span:first-child {
         display: block;
         text-align: right;
         width: 100%;
