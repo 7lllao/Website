@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WOCR open call bot</title>
+<style>
+  body { max-width: 40rem; margin: 2rem auto; padding: 0 1rem; font: 1rem/1.6 system-ui, sans-serif; color: #222; background: #fff; }
+  code { background: #f2f2f2; padding: 0 .25em; }
+  @media (prefers-color-scheme: dark) { body { color: #ddd; background: #111; } code { background: #222; } }
+</style>
+</head>
+<body>
+<h1>WOCR open call bot</h1>
+
+<p>If you found <code>WOCR-verkenning</code> in your server logs, this page explains what it is.</p>
+
+<h2>Who runs it</h2>
+<p>Zhao Zhou, an artist working in new media art. It is a personal research tool, not a company or a commercial service.</p>
+
+<h2>What it does</h2>
+<p>It looks for open calls, residencies and grants in new media art and related fields, so I can keep track of deadlines. It reads only public pages. It does not log in, fill in forms or republish your pages.</p>
+
+<h2>How it behaves</h2>
+<ul>
+  <li>It makes one request at a time, with at least 5 seconds between requests to the same site.</li>
+  <li>It visits only a small number of pages per site.</li>
+  <li>It checks <code>robots.txt</code> first and follows it.</li>
+  <li>It stops at once when a site answers with 403 or 429, or shows a bot check.</li>
+</ul>
+
+<h2>Want it to stop?</h2>
+<p>Add this to your <code>robots.txt</code>:</p>
+<pre><code>User-agent: WOCR-verkenning
+Disallow: /</code></pre>
+<p>Or contact me: <a href="mailto:CONTACT@zhao-zhou.com">CONTACT@zhao-zhou.com</a>. I will exclude your site.</p>
+</body>
+</html>
